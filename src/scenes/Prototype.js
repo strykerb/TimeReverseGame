@@ -33,10 +33,11 @@ class Prototype extends Phaser.Scene {
         this.physics.world.bounds.width = groundLayer.width;
         this.physics.world.bounds.height = groundLayer.height;
 
-        // create the player sprite    
-        player = this.physics.add.sprite(200, 200, 'player'); 
+        // Instantiate the Player Class  
+        player = new Player(this, 200, 200, 'player');
+        
         //player.setBounce(0.2); // our player will bounce from items
-        player.setCollideWorldBounds(true); // don't go out of the map
+        player.body.setCollideWorldBounds(true); // don't go out of the map
         	
         // Add collision with the ground
         this.physics.add.collider(groundLayer, player);
@@ -52,42 +53,11 @@ class Prototype extends Phaser.Scene {
         // set background color, so the sky is not black    
         this.cameras.main.setBackgroundColor('#ccccff'); 
 
-        // Setup Walk Animation
-        this.anims.create({
-            key: 'walk',
-            frames: this.anims.generateFrameNames('player', { prefix: 'p1_walk', start: 1, end: 11, zeroPad: 2 }),
-            frameRate: 10,
-            repeat: -1
-        });
-        // idle with only one frame, so repeat is not neaded
-        this.anims.create({
-            key: 'idle',
-            frames: [{key: 'player', frame: 'p1_stand'}],
-            frameRate: 10,
-        });
 
     }
      
-    update() {
-        if (cursors.left.isDown)
-        {
-            player.body.setVelocityX(-200); // move left
-            player.anims.play('walk', true); // play walk animation
-            player.flipX= true; // flip the sprite to the left
-        }
-        else if (cursors.right.isDown)
-        {
-            player.body.setVelocityX(200); // move right
-            player.anims.play('walk', true); // play walk animatio
-            player.flipX = false; // use the original sprite looking to the right
-        } else {
-            player.body.setVelocityX(0);
-            player.anims.play('idle', true);
-        }  
-        if ((cursors.space.isDown || cursors.up.isDown) && player.body.onFloor())
-        {
-            player.body.setVelocityY(-500); // jump up
+    update(time, delta) {
+        //console.log(time);
+        player.update();
     }
-    }
-
 }
