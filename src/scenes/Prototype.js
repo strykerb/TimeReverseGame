@@ -7,7 +7,6 @@ class Prototype extends Phaser.Scene {
     }
 
     preload() {
-        console.log("preload called!");
         // map made with Tiled in JSON format
         this.load.tilemapTiledJSON('map', '../../assets/map.json');
         // tiles in spritesheet 
@@ -19,7 +18,6 @@ class Prototype extends Phaser.Scene {
     }
      
     create() {
-        console.log("create called!");
         
         // load the map 
         map = this.make.tilemap({key: 'map'});
@@ -61,22 +59,31 @@ class Prototype extends Phaser.Scene {
             frameRate: 10,
             repeat: -1
         });
+        // idle with only one frame, so repeat is not neaded
+        this.anims.create({
+            key: 'idle',
+            frames: [{key: 'player', frame: 'p1_stand'}],
+            frameRate: 10,
+        });
 
     }
      
     update() {
-        if (cursors.left.isDown) // if the left arrow key is down
+        if (cursors.left.isDown)
         {
             player.body.setVelocityX(-200); // move left
             player.anims.play('walk', true); // play walk animation
             player.flipX= true; // flip the sprite to the left
         }
-        else if (cursors.right.isDown) // if the right arrow key is down
+        else if (cursors.right.isDown)
         {
             player.body.setVelocityX(200); // move right
             player.anims.play('walk', true); // play walk animatio
             player.flipX = false; // use the original sprite looking to the right
-        }
+        } else {
+            player.body.setVelocityX(0);
+            player.anims.play('idle', true);
+        }  
         if ((cursors.space.isDown || cursors.up.isDown) && player.body.onFloor())
         {
             player.body.setVelocityY(-500); // jump up

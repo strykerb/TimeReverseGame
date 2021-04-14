@@ -12,7 +12,6 @@ var config = {
     scene: [Prototype]
 };
  
-console.log("main runs!");
 var game = new Phaser.Game(config);
 //game.scene.start("Prototype");
 
