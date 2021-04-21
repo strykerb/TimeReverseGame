@@ -59,5 +59,6 @@ class Prototype extends Phaser.Scene {
     update(time, delta) {
         //console.log(time);
         player.update();
+        
     }
 }
