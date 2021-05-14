@@ -21,6 +21,8 @@ class Prototype extends Phaser.Scene {
         
         // load the map 
         map = this.make.tilemap({key: 'map'});
+
+        this.coolDownBarWidth = 300;
         
         // tiles for the ground layer
         var groundTiles = map.addTilesetImage('tiles');
@@ -34,13 +36,13 @@ class Prototype extends Phaser.Scene {
         this.physics.world.bounds.height = groundLayer.height;
 
         // Instantiate the Player Class  
-        player = new Player(this, 200, 200, 'player');
+        this.player = new Player(this, 200, 200, 'player');
         
         //player.setBounce(0.2); // our player will bounce from items
-        player.body.setCollideWorldBounds(true); // don't go out of the map
+        this.player.body.setCollideWorldBounds(true); // don't go out of the map
         	
         // Add collision with the ground
-        this.physics.add.collider(groundLayer, player);
+        this.physics.add.collider(groundLayer, this.player);
 
         // Adding keyboard input
         cursors = this.input.keyboard.createCursorKeys();
@@ -48,17 +50,47 @@ class Prototype extends Phaser.Scene {
         // set bounds so the camera won't go outside the game world
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);
         // make the camera follow the player
-        this.cameras.main.startFollow(player);
+        this.cameras.main.startFollow(this.player);
         
         // set background color, so the sky is not black    
         this.cameras.main.setBackgroundColor('#ccccff'); 
+
+        // Create ability cooldown bar
+        this.coolDownBar = this.makeBar(game.config.width/2 - this.coolDownBarWidth/2, 20, 0x2ecc71);
+        this.setValue(this.coolDownBar, 0);
+        this.coolDownBar.setScrollFactor(0, 0);
 
 
     }
      
     update(time, delta) {
         //console.log(time);
-        player.update();
+        this.player.update();
+
+        this.setValue(this.coolDownBar, this.player.jsonObj.length/this.player.TIME_JUMP)
         
+    }
+
+    makeBar(x, y, color) {
+        //draw the bar
+        let bar = this.add.graphics();
+
+        //color the bar
+        bar.fillStyle(color, 1);
+
+        //fill the bar with a rectangle
+        bar.fillRect(0, 0, this.coolDownBarWidth, 50);
+        
+        //position the bar
+        bar.x = x;
+        bar.y = y;
+
+        //return the bar
+        return bar;
+    }
+    
+    setValue(bar, percentage) {
+        //scale the bar
+        bar.scaleX = percentage;
     }
 }

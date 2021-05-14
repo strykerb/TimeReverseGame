@@ -1,7 +1,10 @@
 // Player Prefab
 
 class Player extends Phaser.GameObjects.Sprite {
-    TIME_JUMP = 1000;
+    TIME_JUMP = 500;
+    MOVE_SPEED = 300;
+    JUMP_HEIGHT = 500;
+    ATTATCH_OFFSET = 6;
     curr_scene;
     past_pos;
     cloned = false;
@@ -13,6 +16,8 @@ class Player extends Phaser.GameObjects.Sprite {
         // add obejct to the existing scene
         scene.add.existing(this);
         scene.physics.add.existing(this);
+
+        this.setOrigin(0.5, 0);
         
         // Setup Walk Animation
         this.anims.create({
@@ -31,29 +36,51 @@ class Player extends Phaser.GameObjects.Sprite {
         this.jsonObj.push({"count": 1});
         this.curr_scene = scene;
         this.past_pos = {"posX":this.x, "posY":this.y};
+
+        this.attatched = false;
     }
 
     update(){
+        // Check if player should no longer be attatched to the clone
+        let netVelocity = 0;
+        
+        if(this.attatched){
+            //console.log("check: " + this.y + " < " + (this.clone.y - this.height - this.ATTATCH_OFFSET));
+            if (this.x < this.clone.x - this.width/2 || this.x > this.clone.x + this.width/2){
+                this.attatched = false;
+            }
+            if (this.y < this.clone.y - this.height - this.ATTATCH_OFFSET){
+                this.attatched = false;
+            }
+            if(this.attatched){
+                netVelocity = this.clone.body.velocity.x;
+                this.body.setVelocityY(this.clone.body.velocity.y);
+                if (this.y > this.clone.y - this.height){
+                    this.y = this.clone.y - this.height;
+                }
+            }
+        }
+        
         if (cursors.left.isDown)
         {
-            this.body.setVelocityX(-200); // move left
+            this.body.setVelocityX(netVelocity - this.MOVE_SPEED); // move left
             this.anims.play('walk', true); // play walk animation
             this.flipX= true; // flip the sprite to the left
         }
         else if (cursors.right.isDown)
         {
-            this.body.setVelocityX(200); // move right
+            this.body.setVelocityX(netVelocity + this.MOVE_SPEED); // move right
             this.anims.play('walk', true); // play walk animatio
             this.flipX = false; // use the original sprite looking to the right
         } else {
-            this.body.setVelocityX(0);
+            this.body.setVelocityX(netVelocity);
             this.anims.play('idle', true);
         }  
-        if ((cursors.space.isDown || cursors.up.isDown) && this.body.onFloor())
+        if ((cursors.space.isDown || cursors.up.isDown) && (this.body.onFloor() || this.attatched))
         {
-            this.body.setVelocityY(-500); // jump up
+            this.body.setVelocityY(-this.JUMP_HEIGHT); // jump up
         }
-        if (cursors.down.isDown && this.jsonObj.length >= 499){
+        if (cursors.down.isDown && this.jsonObj.length >= this.TIME_JUMP-1){
             this.makeClone();
         }
 
@@ -84,7 +111,7 @@ class Player extends Phaser.GameObjects.Sprite {
     // Creates a child clone, and passes it the jsonObj
     makeClone(){
         this.cloned = true;
-        this.x = this.past_pos["posX"];
+        this.x = this.past_pos["posX"]-this.width;
         this.y = this.past_pos["posY"] - this.height;
         this.clone = new Clone(this.curr_scene, this.past_pos["posX"], this.past_pos["posY"], 'player', 0, this.jsonObj);
         this.clone.body.setCollideWorldBounds(true); // don't go out of the map
@@ -101,11 +128,16 @@ class Player extends Phaser.GameObjects.Sprite {
             this.count++;
             if (this.count >= this.TIME_JUMP){
                 this.clone.destroy();
+                this.attatched = false;
                 this.cloned = false;
                 this.count = 1;
                 return;
             }
             this.clone.update();
         }
+    }
+
+    attatchToClone(clone){
+        this.attatched = true;
     }
 }

@@ -10,6 +10,21 @@ class Clone extends Phaser.GameObjects.Sprite {
         // add obejct to the existing scene
         scene.add.existing(this);
         scene.physics.add.existing(this);
+        this.body.setImmovable(true);
+        this.setOrigin(0.5, 0);
+
+        scene.physics.add.collider(
+            this, 
+            scene.player,
+            function(_clone, _player){
+                if (_clone.body.touching.up && _player.body.touching.down){
+                    scene.player.attatchToClone(this.body);
+                }
+            }
+        );
+
+        this.JUMP_HEIGHT = scene.player.JUMP_HEIGHT;
+        this.MOVE_SPEED = scene.player.MOVE_SPEED;
         
         // Setup Walk Animation
         this.anims.create({
@@ -43,13 +58,13 @@ class Clone extends Phaser.GameObjects.Sprite {
         let action = this.actionsList.shift();
         if (action["moveLeft"])
         {
-            this.body.setVelocityX(-200); // move left
+            this.body.setVelocityX(-this.MOVE_SPEED); // move left
             this.anims.play('walk', true); // play walk animation
             this.flipX= true; // flip the sprite to the left
         }
         else if (action["moveRight"])
         {
-            this.body.setVelocityX(200); // move right
+            this.body.setVelocityX(this.MOVE_SPEED); // move right
             this.anims.play('walk', true); // play walk animatio
             this.flipX = false; // use the original sprite looking to the right
         } else {
@@ -58,7 +73,7 @@ class Clone extends Phaser.GameObjects.Sprite {
         }  
         if (action["moveJump"]  && this.body.onFloor())
         {
-            this.body.setVelocityY(-500); // jump up
+            this.body.setVelocityY(-this.JUMP_HEIGHT); // jump up
         }
     }
 }
