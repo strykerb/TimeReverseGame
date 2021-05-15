@@ -8,7 +8,7 @@ class Prototype extends Phaser.Scene {
 
     preload() {
         // map made with Tiled in JSON format
-        this.load.tilemapTiledJSON('map', '../../assets/map.json');
+        this.load.tilemapTiledJSON('tilemap1', '../../assets/tilemap1.json');
         // tiles in spritesheet 
         this.load.spritesheet('tiles', '../../assets/tiles.png', {frameWidth: 70, frameHeight: 70});
         // simple coin image
@@ -20,14 +20,14 @@ class Prototype extends Phaser.Scene {
     create() {
         
         // load the map 
-        map = this.make.tilemap({key: 'map'});
+        map = this.make.tilemap({key: 'tilemap1'});
 
         this.coolDownBarWidth = 300;
         
         // tiles for the ground layer
         var groundTiles = map.addTilesetImage('tiles');
         // create the ground layer
-        groundLayer = map.createDynamicLayer('World', groundTiles, 0, 0);
+        groundLayer = map.createLayer('Ground', groundTiles, 0, 0);
         // the player will collide with this layer
         groundLayer.setCollisionByExclusion([-1]);
      

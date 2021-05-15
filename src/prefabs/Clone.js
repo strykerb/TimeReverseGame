@@ -22,6 +22,7 @@ class Clone extends Phaser.GameObjects.Sprite {
                 }
             }
         );
+        this.setColision(false, false, true, true);
 
         this.JUMP_HEIGHT = scene.player.JUMP_HEIGHT;
         this.MOVE_SPEED = scene.player.MOVE_SPEED;

@@ -3,7 +3,7 @@
 class Player extends Phaser.GameObjects.Sprite {
     TIME_JUMP = 500;
     MOVE_SPEED = 300;
-    JUMP_HEIGHT = 500;
+    JUMP_HEIGHT = 400;
     ATTATCH_OFFSET = 6;
     curr_scene;
     past_pos;
@@ -111,8 +111,8 @@ class Player extends Phaser.GameObjects.Sprite {
     // Creates a child clone, and passes it the jsonObj
     makeClone(){
         this.cloned = true;
-        this.x = this.past_pos["posX"]-this.width;
-        this.y = this.past_pos["posY"] - this.height;
+        this.x = this.past_pos["posX"];
+        this.y = this.past_pos["posY"];
         this.clone = new Clone(this.curr_scene, this.past_pos["posX"], this.past_pos["posY"], 'player', 0, this.jsonObj);
         this.clone.body.setCollideWorldBounds(true); // don't go out of the map
         	
