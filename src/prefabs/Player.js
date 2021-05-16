@@ -21,23 +21,25 @@ class Player extends Phaser.GameObjects.Sprite {
         
         // Setup Walk Animation
         this.anims.create({
-            key: 'walk',
-            frames: this.anims.generateFrameNames('player', { prefix: 'p1_walk', start: 1, end: 11, zeroPad: 2 }),
-            frameRate: 10,
+            key: 'run',
+            frames: this.anims.generateFrameNames('player', { prefix: 'run', start: 1, end: 12 }),
+            frameRate: 30,
             repeat: -1
         });
         // idle with only one frame, so repeat is not neaded
         this.anims.create({
             key: 'idle',
-            frames: [{key: 'player', frame: 'p1_stand'}],
+            frames: this.anims.generateFrameNames('player', { prefix: 'idle', start: 1, end: 4 }),
             frameRate: 10,
         });
+
         this.jsonObj = [];
         this.jsonObj.push({"count": 1});
         this.curr_scene = scene;
         this.past_pos = {"posX":this.x, "posY":this.y};
 
         this.attatched = false;
+        this.PAN_TIME = 3000;
     }
 
     update(){
@@ -64,13 +66,13 @@ class Player extends Phaser.GameObjects.Sprite {
         if (cursors.left.isDown)
         {
             this.body.setVelocityX(netVelocity - this.MOVE_SPEED); // move left
-            this.anims.play('walk', true); // play walk animation
+            this.anims.play('run', true); // play walk animation
             this.flipX= true; // flip the sprite to the left
         }
         else if (cursors.right.isDown)
         {
             this.body.setVelocityX(netVelocity + this.MOVE_SPEED); // move right
-            this.anims.play('walk', true); // play walk animatio
+            this.anims.play('run', true); // play walk animatio
             this.flipX = false; // use the original sprite looking to the right
         } else {
             this.body.setVelocityX(netVelocity);
@@ -111,14 +113,24 @@ class Player extends Phaser.GameObjects.Sprite {
     // Creates a child clone, and passes it the jsonObj
     makeClone(){
         this.cloned = true;
+        
+        // Move Player
         this.x = this.past_pos["posX"];
         this.y = this.past_pos["posY"];
+        
+        // Spawn clone instance
         this.clone = new Clone(this.curr_scene, this.past_pos["posX"], this.past_pos["posY"], 'player', 0, this.jsonObj);
         this.clone.body.setCollideWorldBounds(true); // don't go out of the map
-        	
-        // Add collision with the ground
         this.curr_scene.physics.add.collider(groundLayer, this.clone);
+        
+        // Reset action list
         this.jsonObj = [];
+        
+        // Play teleport sound
+        this.scene.teleportSound.play();
+
+        const cam = this.scene.cameras.main;
+        cam.pan(this.x, this.y, this.PAN_TIME, 'Sine.easeInOut');
 
     }
 

@@ -22,23 +22,23 @@ class Clone extends Phaser.GameObjects.Sprite {
                 }
             }
         );
-        this.setColision(false, false, true, true);
 
         this.JUMP_HEIGHT = scene.player.JUMP_HEIGHT;
         this.MOVE_SPEED = scene.player.MOVE_SPEED;
         
         // Setup Walk Animation
         this.anims.create({
-            key: 'walk',
-            frames: this.anims.generateFrameNames('player', { prefix: 'p1_walk', start: 1, end: 11, zeroPad: 2 }),
-            frameRate: 10,
+            key: 'run',
+            frames: this.anims.generateFrameNames('player', { prefix: 'run', start: 1, end: 12 }),
+            frameRate: 30,
             repeat: -1
         });
         // idle with only one frame, so repeat is not neaded
         this.anims.create({
             key: 'idle',
-            frames: [{key: 'player', frame: 'p1_stand'}],
+            frames: this.anims.generateFrameNames('player', { prefix: 'idle', start: 1, end: 4 }),
             frameRate: 10,
+            repeat: -1
         });
 
         // Assign actions based on param from Player
@@ -60,13 +60,13 @@ class Clone extends Phaser.GameObjects.Sprite {
         if (action["moveLeft"])
         {
             this.body.setVelocityX(-this.MOVE_SPEED); // move left
-            this.anims.play('walk', true); // play walk animation
+            this.anims.play('run', true); // play walk animation
             this.flipX= true; // flip the sprite to the left
         }
         else if (action["moveRight"])
         {
             this.body.setVelocityX(this.MOVE_SPEED); // move right
-            this.anims.play('walk', true); // play walk animatio
+            this.anims.play('run', true); // play walk animatio
             this.flipX = false; // use the original sprite looking to the right
         } else {
             this.body.setVelocityX(0);

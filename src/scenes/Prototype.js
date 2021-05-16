@@ -8,13 +8,18 @@ class Prototype extends Phaser.Scene {
 
     preload() {
         // map made with Tiled in JSON format
-        this.load.tilemapTiledJSON('tilemap1', '../../assets/tilemap1.json');
+        this.load.tilemapTiledJSON('tilemap1', '../../assets/tiles/tilemap1.json');
         // tiles in spritesheet 
-        this.load.spritesheet('tiles', '../../assets/tiles.png', {frameWidth: 70, frameHeight: 70});
+        this.load.spritesheet('tiles', '../../assets/tiles/tiles.png', {frameWidth: 70, frameHeight: 70});
         // simple coin image
-        this.load.image('coin', '../../assets/coinGold.png');
+        this.load.image('coin', '../../assets/sprites/coinGold.png');
         // player animations
-        this.load.atlas('player', '../../assets/player.png', 'assets/player.json');
+        //this.load.atlas('player', '../../assets/player.png', 'assets/player.json');
+
+        this.load.atlas('player', '../../assets/anims/run_idle_SS.png', '../../assets/anims/run_idle_SS.json');
+
+        this.load.audio("teleportSound", ["../../assets/sounds/timeReverseSound.wav"]);
+
     }
      
     create() {
@@ -59,6 +64,9 @@ class Prototype extends Phaser.Scene {
         this.coolDownBar = this.makeBar(game.config.width/2 - this.coolDownBarWidth/2, 20, 0x2ecc71);
         this.setValue(this.coolDownBar, 0);
         this.coolDownBar.setScrollFactor(0, 0);
+
+        // Load Sound
+        this.teleportSound = this.sound.add("teleportSound", {loop: false, volume: 0.7});
 
 
     }
