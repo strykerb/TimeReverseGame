@@ -73,6 +73,21 @@ class Prototype extends Phaser.Scene {
         // Load Sound
         this.teleportSound = this.sound.add("teleportSound", {loop: false, volume: 0.7});
 
+        this.scoreConfig = {
+            fontFamily: 'Courier',
+            fontSize: '30px',
+            color: '#faf5c8',
+            align: 'right',
+            padding: {
+            top: 5,
+            bottom: 5,
+            }
+        }
+        
+        // Add UI Element to the screen
+        this.scoreLeft = this.add.text(140 , 70, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
+        this.scoreLeft.setScrollFactor(0, 0);
+
 
     }
      
