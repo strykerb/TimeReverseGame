@@ -50,7 +50,12 @@ class Prototype extends Phaser.Scene {
         this.physics.add.collider(groundLayer, this.player);
 
         // Adding keyboard input
-        cursors = this.input.keyboard.createCursorKeys();
+        // Create key bindings
+        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        //cursors = this.input.keyboard.createCursorKeys();
 
         // set bounds so the camera won't go outside the game world
         this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels);

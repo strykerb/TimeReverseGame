@@ -39,12 +39,18 @@ class Player extends Phaser.GameObjects.Sprite {
         this.past_pos = {"posX":this.x, "posY":this.y};
 
         this.attatched = false;
-        this.PAN_TIME = 3000;
+        this.TELEPORT_TIME = 3000;
+        this.teleporting = false;
     }
 
     update(){
         // Check if player should no longer be attatched to the clone
         let netVelocity = 0;
+
+        // block player input during teleport
+        if (this.teleporting){
+            return;
+        }
         
         if(this.attatched){
             //console.log("check: " + this.y + " < " + (this.clone.y - this.height - this.ATTATCH_OFFSET));
@@ -63,31 +69,31 @@ class Player extends Phaser.GameObjects.Sprite {
             }
         }
         
-        if (cursors.left.isDown)
+        if (keyLEFT.isDown)
         {
             this.body.setVelocityX(netVelocity - this.MOVE_SPEED); // move left
             this.anims.play('run', true); // play walk animation
             this.flipX= true; // flip the sprite to the left
         }
-        else if (cursors.right.isDown)
+        else if (keyRIGHT.isDown)
         {
             this.body.setVelocityX(netVelocity + this.MOVE_SPEED); // move right
-            this.anims.play('run', true); // play walk animatio
+            this.anims.play('run', true); // play walk animation
             this.flipX = false; // use the original sprite looking to the right
         } else {
             this.body.setVelocityX(netVelocity);
             this.anims.play('idle', true);
         }  
-        if ((cursors.space.isDown || cursors.up.isDown) && (this.body.onFloor() || this.attatched))
+        if (keyUP.isDown  && (this.body.onFloor() || this.attatched))
         {
             this.body.setVelocityY(-this.JUMP_HEIGHT); // jump up
         }
-        if (cursors.down.isDown && this.jsonObj.length >= this.TIME_JUMP-1){
+        if (keySPACE.isDown && this.jsonObj.length >= this.TIME_JUMP-1){
             this.makeClone();
         }
 
         // Store Position and keyboard input, if a clone doen't currently exist
-        if (!this.cloned){
+        if (!this.cloned && !this.teleporting){
             this.addTimeStamp();
         }
         
@@ -100,9 +106,9 @@ class Player extends Phaser.GameObjects.Sprite {
         let item = {};
         item ["posX"] = this.x;
         item ["posY"] = this.y;
-        item ["moveLeft"] = cursors.left.isDown;
-        item ["moveRight"] = cursors.right.isDown;
-        item ["moveJump"] = cursors.space.isDown || cursors.up.isDown;
+        item ["moveLeft"] = keyLEFT.isDown;
+        item ["moveRight"] = keyRIGHT.isDown;
+        item ["moveJump"] = keyUP.isDown;
         
         // If we are exceeding the maximum recorded actions, remove the first elem of jsonObj
         if (this.jsonObj.push(item) >= this.TIME_JUMP){
@@ -112,25 +118,41 @@ class Player extends Phaser.GameObjects.Sprite {
 
     // Creates a child clone, and passes it the jsonObj
     makeClone(){
-        this.cloned = true;
+        this.teleporting = true;
         
-        // Move Player
-        this.x = this.past_pos["posX"];
-        this.y = this.past_pos["posY"];
+        this.setVisible(false);
         
-        // Spawn clone instance
-        this.clone = new Clone(this.curr_scene, this.past_pos["posX"], this.past_pos["posY"], 'player', 0, this.jsonObj);
-        this.clone.body.setCollideWorldBounds(true); // don't go out of the map
-        this.curr_scene.physics.add.collider(groundLayer, this.clone);
-        
-        // Reset action list
-        this.jsonObj = [];
+        // Disable Input
+        //this.scene.input.keyboard.enabled = false;
         
         // Play teleport sound
         this.scene.teleportSound.play();
 
         const cam = this.scene.cameras.main;
-        cam.pan(this.x, this.y, this.PAN_TIME, 'Sine.easeInOut');
+        cam.pan(this.past_pos["posX"], this.past_pos["posY"], this.TELEPORT_TIME, 'Elastic');
+
+        this.clock = this.scene.time.delayedCall(this.TELEPORT_TIME, () => {
+            this.teleporting = false;
+            this.cloned = true;
+            this.setVisible(true);
+
+            // Move Player
+            this.x = this.past_pos["posX"];
+            this.y = this.past_pos["posY"];
+
+            // Spawn clone instance
+            //this.clone = new Clone(this.curr_scene, this.past_pos["posX"], this.past_pos["posY"], 'player', 0, this.jsonObj);
+            this.clone = new Clone(this.curr_scene, this.x, this.y, 'player', 0, this.jsonObj);
+            this.clone.body.setCollideWorldBounds(true); // don't go out of the map
+            this.curr_scene.physics.add.collider(groundLayer, this.clone);
+
+            //this.scene.input.keyboard.enabled = true;
+
+            // Reset action list
+            this.jsonObj = [];
+            this.past_pos = [];
+            
+        }, null, this);
 
     }
 

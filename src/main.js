@@ -18,5 +18,6 @@ var game = new Phaser.Game(config);
 var map;
 var player;
 var cursors;
+let keyLEFT, keyRIGHT, keyUP, keySPACE;
 var groundLayer, coinLayer;
 var text;
