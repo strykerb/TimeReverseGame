@@ -8,17 +8,19 @@ class Prototype extends Phaser.Scene {
 
     preload() {
         // map made with Tiled in JSON format
-        this.load.tilemapTiledJSON('tilemap1', '../../assets/tiles/tilemap1.json');
+        this.load.tilemapTiledJSON('tilemap1', './assets/tiles/tilemap1.json');
         // tiles in spritesheet 
-        this.load.spritesheet('tiles', '../../assets/tiles/tiles.png', {frameWidth: 70, frameHeight: 70});
+        this.load.spritesheet('tiles', './assets/tiles/tiles.png', {frameWidth: 70, frameHeight: 70});
+        
         // simple coin image
-        this.load.image('coin', '../../assets/sprites/coinGold.png');
+        this.load.image('coin', './assets/sprites/coinGold.png');
+        this.load.image('door', './assets/sprites/pillar3.png');
+        this.load.image('plate', './assets/sprites/pillar2.png');
+        
         // player animations
-        //this.load.atlas('player', '../../assets/player.png', 'assets/player.json');
+        this.load.atlas('player', './assets/anims/run_idle_SS.png', './assets/anims/run_idle_SS.json');
 
-        this.load.atlas('player', '../../assets/anims/run_idle_SS.png', '../../assets/anims/run_idle_SS.json');
-
-        this.load.audio("teleportSound", ["../../assets/sounds/timeReverseSound.wav"]);
+        this.load.audio("teleportSound", ["./assets/sounds/timeReverseSound.wav"]);
 
     }
      
@@ -42,6 +44,12 @@ class Prototype extends Phaser.Scene {
 
         // Instantiate the Player Class  
         this.player = new Player(this, 200, 200, 'player');
+
+        // Instantiate a doorway
+        this.doors = [new Doorway(this, 252, 500, 'door'), new Doorway(this, 600, 500, 'door')];
+
+        // Instantiate a Pressure Plate
+        this.plates = [new PressurePlate(this, 220, 559, 'plate', 0, 0), new PressurePlate(this, 470, 559, 'plate', 0, 1)];
         
         //player.setBounce(0.2); // our player will bounce from items
         this.player.body.setCollideWorldBounds(true); // don't go out of the map
@@ -88,11 +96,14 @@ class Prototype extends Phaser.Scene {
         this.scoreLeft = this.add.text(140 , 70, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
         this.scoreLeft.setScrollFactor(0, 0);
 
-
     }
      
     update(time, delta) {
         //console.log(time);
+        this.plates.forEach(plate => {
+            plate.update(delta);
+        });
+        
         this.player.update();
 
         this.setValue(this.coolDownBar, this.player.jsonObj.length/this.player.TIME_JUMP)

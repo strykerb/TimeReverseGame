@@ -41,6 +41,9 @@ class Player extends Phaser.GameObjects.Sprite {
         this.attatched = false;
         this.TELEPORT_TIME = 3000;
         this.teleporting = false;
+        this.cloned = false;
+        this.collidingPlate = null;
+
     }
 
     update(){
