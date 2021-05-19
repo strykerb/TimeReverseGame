@@ -1,9 +1,9 @@
 // Player Prefab
 
 class Player extends Phaser.GameObjects.Sprite {
-    TIME_JUMP = 500;
+    TIME_JUMP = 400;
     MOVE_SPEED = 300;
-    JUMP_HEIGHT = 400;
+    JUMP_HEIGHT = 590;
     ATTATCH_OFFSET = 6;
     curr_scene;
     past_pos;
@@ -122,6 +122,7 @@ class Player extends Phaser.GameObjects.Sprite {
     // Creates a child clone, and passes it the jsonObj
     makeClone(){
         this.teleporting = true;
+        console.log(this.x + ", " + this.y);
         
         this.setVisible(false);
         
