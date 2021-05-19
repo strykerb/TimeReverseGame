@@ -122,7 +122,6 @@ class Player extends Phaser.GameObjects.Sprite {
     // Creates a child clone, and passes it the jsonObj
     makeClone(){
         this.teleporting = true;
-        console.log(this.x + ", " + this.y);
         
         this.setVisible(false);
         
