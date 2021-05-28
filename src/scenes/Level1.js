@@ -82,9 +82,41 @@ class Level1 extends Phaser.Scene {
         }
         
         // Add UI Element to the screen
-        this.instructions = this.add.text(140 , 70, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
+        this.instructions = this.add.text(400 , 70, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
         this.instructions.setScrollFactor(0, 0);
         this.instructions.alpha = 0;
+
+        winbox = new Objective(this, 100, 600, 'coin');
+        
+        this.finishLevel = () => {
+            this.scene.start("menuScene");
+        }
+        
+        this.reachedObjective = () => {
+            console.log("entered");
+            winbox.visible = false;
+            this.physics.world.removeCollider(this.overlapCollider);
+            win = true;
+            labDoor = this.physics.add.sprite(2263, 916);
+            labDoor.setOrigin(0.5, 0.5);
+            labDoor.body.allowGravity = false;
+            this.overlapCollider = this.physics.add.overlap(labDoor, this.player, this.finishLevel);
+            this.instructions2 = this.add.text(400 , 500, "Return to the Lab", this.scoreConfig).setOrigin(0, 0);
+        }
+        
+        this.overlapCollider = this.physics.add.overlap(winbox, this.player, this.reachedObjective);
+
+        this.tutorialTrigger = this.physics.add.sprite(658, 600, "coin");
+        this.tutorialTrigger.setOrigin(0.5, 0.5);
+        this.tutorialTrigger.body.allowGravity = false;
+        this.tutorialTrigger.scaleY = 13;
+        this.tutorialTrigger.alpha = 0;
+        this.tutorialCollider = this.physics.add.overlap(this.tutorialTrigger, this.player, () => {
+            console.log("tutorial");
+            this.physics.world.removeCollider(this.tutorialCollider);
+        });
+
+        win = false;
 
         // Add Win Hitbox
         // this.winBox = this.physics.add.sprite(2063, 916, 'coin');

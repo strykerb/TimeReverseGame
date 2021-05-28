@@ -143,7 +143,6 @@ class Player extends Phaser.GameObjects.Sprite {
         });
 
         this.on('animationcomplete', this.animComplete, this);
-        console.log(this);
 
     }
 
@@ -184,7 +183,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
     // Creates a child clone, and passes it the jsonObj
     makeClone(){
-        console.log(this.x + ", " + this.y);
+        //console.log(this.x + ", " + this.y);
         this.teleporting = true;
 
         this.scene.ellipse = new Phaser.Geom.Ellipse(this.x, this.y+this.height/2, this.width/2, this.height);
