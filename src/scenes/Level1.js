@@ -14,11 +14,6 @@ class Level1 extends Phaser.Scene {
 
         this.load.image('coin', './assets/sprites/coinGold.png');
         
-        // player animations
-        this.load.atlas('player', './assets/anims/run_idle_SS.png', './assets/anims/run_idle_SS.json');
-
-        this.load.audio("teleportSound", ["./assets/sounds/timeReverseSound.wav"]);
-
     }
      
     create() {
@@ -38,6 +33,8 @@ class Level1 extends Phaser.Scene {
         // set the boundaries of our game world
         this.physics.world.bounds.width = groundLayer.width;
         this.physics.world.bounds.height = groundLayer.height;
+
+        this.particleManager = this.add.particles('particle');
 
         // Instantiate the Player Class  
         this.player = new Player(this, 2263, 916, 'player');

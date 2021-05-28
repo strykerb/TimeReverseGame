@@ -42,6 +42,8 @@ class Level2 extends Phaser.Scene {
         this.physics.world.bounds.width = groundLayer.width;
         this.physics.world.bounds.height = groundLayer.height;
 
+        this.particleManager = this.add.particles('particle');
+
         // Instantiate the Player Class  
         this.player = new Player(this, 2398, 916, 'player');
         // this.player = new Player(this, 200, 200, 'player');
