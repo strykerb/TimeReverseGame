@@ -28,6 +28,7 @@ class Clone extends Phaser.GameObjects.Sprite {
         this.MOVE_SPEED = scene.player.MOVE_SPEED;
         
         this.createAnims();
+        this.tint = 0x7a7a7a;
 
         // Assign actions based on param from Player
         this.actionsList = actions;

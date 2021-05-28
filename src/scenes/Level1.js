@@ -80,6 +80,17 @@ class Level1 extends Phaser.Scene {
             bottom: 5,
             }
         }
+
+        this.hintConfig = {
+            fontFamily: 'Courier',
+            fontSize: '60px',
+            color: '#faf5c8',
+            align: 'right',
+            padding: {
+            top: 5,
+            bottom: 5,
+            }
+        }
         
         // Add UI Element to the screen
         this.instructions = this.add.text(400 , 70, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
@@ -101,7 +112,12 @@ class Level1 extends Phaser.Scene {
             labDoor.setOrigin(0.5, 0.5);
             labDoor.body.allowGravity = false;
             this.overlapCollider = this.physics.add.overlap(labDoor, this.player, this.finishLevel);
-            this.instructions2 = this.add.text(400 , 500, "Return to the Lab", this.scoreConfig).setOrigin(0, 0);
+            this.instructions2 = this.add.text(400 , 500, "Return to the Lab", this.hintConfig).setOrigin(0, 0);
+            this.instructions3.alpha = 0;
+            this.instructions4.alpha = 0;
+            this.clock = this.time.delayedCall(3000, () => {
+                this.instructions2.alpha = 0;
+            }, null, this);
         }
         
         this.overlapCollider = this.physics.add.overlap(winbox, this.player, this.reachedObjective);
@@ -113,6 +129,8 @@ class Level1 extends Phaser.Scene {
         this.tutorialTrigger.alpha = 0;
         this.tutorialCollider = this.physics.add.overlap(this.tutorialTrigger, this.player, () => {
             console.log("tutorial");
+            this.instructions3 = this.add.text(430 , 600, "Spawn a Time Clone and jump", this.scoreConfig).setOrigin(0, 0);
+            this.instructions4 = this.add.text(430 , 640, "on them to reach high places", this.scoreConfig).setOrigin(0, 0);
             this.physics.world.removeCollider(this.tutorialCollider);
         });
 
@@ -136,7 +154,7 @@ class Level1 extends Phaser.Scene {
         
         this.player.update();
 
-        this.setValue(this.coolDownBar, this.player.jsonObj.length/this.player.TIME_JUMP)
+        this.setValue(this.coolDownBar, this.instructions, this.player.jsonObj.length/this.player.TIME_JUMP);
         
     }
 
@@ -158,13 +176,13 @@ class Level1 extends Phaser.Scene {
         return bar;
     }
     
-    setValue(bar, percentage) {
+    setValue(bar, text, percentage) {
         //scale the bar
         bar.scaleX = percentage;
         if (percentage >= 0.99){
-            this.instructions.alpha = 1;
+            text.alpha = 1;
         } else {
-            this.instructions.alpha = 0;
+            text.alpha = 0;
         }
     }
 }

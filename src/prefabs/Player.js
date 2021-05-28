@@ -163,6 +163,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.anims.play("jump");
         this.jumping = true;
         this.body.setVelocityY(-this.JUMP_HEIGHT); // jump up
+        // console.log(this.x, this.y);
     }
 
     // Appends position and input at the current moment to jsonObj
