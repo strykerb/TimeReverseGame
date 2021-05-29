@@ -23,6 +23,13 @@ class Player extends Phaser.GameObjects.Sprite {
 
         this.setOrigin(0.5, 0);
         
+        this.timeAnim = scene.physics.add.sprite(this.x, this.y + this.height/2);
+        this.timeAnim.body.allowGravity = false;
+        this.timeAnim.scaleX = 0.5;
+        this.timeAnim.scaleY = 0.5;
+        this.timeAnim.setDepth(-1);
+        this.timeAnim.alpha = 0;
+
         this.createAnims();
 
         this.jsonObj = [];
@@ -31,16 +38,23 @@ class Player extends Phaser.GameObjects.Sprite {
         this.past_pos = {"posX":this.x, "posY":this.y};
 
         this.attatched = false;
-        this.TELEPORT_TIME = 3000;
+        this.TELEPORT_TIME = 1000;
         this.teleporting = false;
         this.cloned = false;
         this.clone = null;
         this.collidingPlate = null;
+
+        console.log(this);
+
+        this.timeAnim.anims.play('timeAnim');
     }
 
     update(){
         // Check if player should no longer be attatched to the clone
         let netVelocity = 0;
+
+        this.timeAnim.x = this.x;
+        this.timeAnim.y = this.y + this.height/2;
 
         // block player input during teleport
         if (this.teleporting){
@@ -141,6 +155,13 @@ class Player extends Phaser.GameObjects.Sprite {
             frames: this.anims.generateFrameNames('player', { prefix: 'land', start: 1, end: 5 }),
             frameRate: 30
         });
+        this.timeAnim.anims.create({
+            key: 'timeAnim',
+            frames: this.anims.generateFrameNames('timeAnim', { prefix: 'sprite', start: 1, end: 51 }),
+            frameRate: 30,
+            yoyo: true,
+            repeat: -1
+        });
 
         this.on('animationcomplete', this.animComplete, this);
 
@@ -171,6 +192,7 @@ class Player extends Phaser.GameObjects.Sprite {
         let item = {};
         item ["posX"] = this.x;
         item ["posY"] = this.y;
+        item ["velY"] = this.body.velocity["y"];
         item ["moveLeft"] = keyLEFT.isDown;
         item ["moveRight"] = keyRIGHT.isDown;
         item ["moveJump"] = keyUP.isDown;
@@ -179,6 +201,9 @@ class Player extends Phaser.GameObjects.Sprite {
         // If we are exceeding the maximum recorded actions, remove the first elem of jsonObj
         if (this.jsonObj.push(item) >= this.TIME_JUMP){
             this.past_pos = this.jsonObj.shift();
+            this.timeAnim.alpha = 0.25;
+        } else {
+            this.past_pos = this.jsonObj[0];
         }
     }
 
@@ -186,6 +211,7 @@ class Player extends Phaser.GameObjects.Sprite {
     makeClone(){
         //console.log(this.x + ", " + this.y);
         this.teleporting = true;
+        this.timeAnim.alpha = 0;
 
         this.scene.ellipse = new Phaser.Geom.Ellipse(this.x, this.y+this.height/2, this.width/2, this.height);
 
@@ -216,6 +242,13 @@ class Player extends Phaser.GameObjects.Sprite {
 
         const cam = this.scene.cameras.main;
         cam.pan(this.past_pos["posX"], this.past_pos["posY"], this.TELEPORT_TIME, Phaser.Math.Easing.Quadratic.InOut);
+        console.log("past pos: " + this.past_pos["posX"], this.past_pos["posY"]);
+
+        if (this.scene.doors){
+            this.scene.doors.forEach(door => {
+                door.revert();
+            });
+        }
 
         this.clock = this.scene.time.delayedCall(this.TELEPORT_TIME, () => {
             this.teleporting = false;
@@ -233,7 +266,7 @@ class Player extends Phaser.GameObjects.Sprite {
             this.clone = new Clone(this.scene, this.x, this.y, 'player', 0, this.jsonObj);
             this.clone.body.setCollideWorldBounds(true); // don't go out of the map
             this.curr_scene.physics.add.collider(groundLayer, this.clone);
-
+            this.clone.body.setVelocityY(this.jsonObj[0]["velY"]);
             if (this.scene.doors){
                 this.scene.doors.forEach(door => {
                     this.scene.physics.add.collider(door, this.clone);
@@ -255,6 +288,7 @@ class Player extends Phaser.GameObjects.Sprite {
         if (this.cloned){
             this.count++;
             if (this.count >= this.TIME_JUMP){
+                this.scene.physics.world.removeCollider(this.clone.playerCollider);
                 this.clone.destroy();
                 this.clone = null;
                 this.attatched = false;

@@ -133,12 +133,17 @@ class Level2 extends Phaser.Scene {
         
         this.overlapCollider = this.physics.add.overlap(winbox, this.player, this.reachedObjective);
 
+        console.log(this.doors);
+
     }
      
     update(time, delta) {
         //console.log(time);
         this.plates.forEach(plate => {
             plate.update(delta);
+        });
+        this.doors.forEach(door => {
+            door.update(delta);
         });
         
         this.player.update();

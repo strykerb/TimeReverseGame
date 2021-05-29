@@ -10,6 +10,8 @@ class Menu extends Phaser.Scene {
         // player animations
         this.load.atlas('player', './assets/anims/player.png', './assets/anims/player.json');
 
+        this.load.atlas('timeAnim', './assets/anims/timeAnim.png', './assets/anims/timeAnim.json');
+
         this.load.audio("teleportSound", ["./assets/sounds/timeReverseSound.wav"]);
     }
 
