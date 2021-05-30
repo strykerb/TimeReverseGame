@@ -29,11 +29,14 @@ var text;
 var winbox;
 var win;
 var labDoor;
+var progress;
 
-function enterButtonHoverState(button) {
-    button.setStyle({ color: '#525e4a'});
+function enterButtonHoverState(index) {
+    game.scene.scenes[0].levels[index].scaleX = 1.5;
+    game.scene.scenes[0].levels[index].scaleY = 1.5;
   }
 
-function enterButtonRestState(button) {
-    button.setStyle({ color: '#faf5c8' });
+function enterButtonRestState(index) {
+    game.scene.scenes[0].levels[index].scaleX = 1;
+    game.scene.scenes[0].levels[index].scaleY = 1;
 }

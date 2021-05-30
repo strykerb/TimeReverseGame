@@ -113,6 +113,7 @@ class Level2 extends Phaser.Scene {
         winbox = new Objective(this, 100, 450, 'coin');
         
         this.finishLevel = () => {
+            progress = 2;
             this.scene.start("menuScene");
         }
         
