@@ -24,7 +24,7 @@ var map;
 var player;
 var cursors;
 let keyLEFT, keyRIGHT, keyUP, keySPACE;
-var groundLayer, coinLayer;
+var groundLayer, coinLayer, bgLayer;
 var text;
 var winbox;
 var win;
