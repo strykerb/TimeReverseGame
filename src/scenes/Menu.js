@@ -6,6 +6,7 @@ class Menu extends Phaser.Scene {
 
     preload() {
         this.load.image('particle', './assets/sprites/5x5_white.png');
+        this.load.image('backdrop', './assets/tiles/repairsky.png');
 
         // player animations
         this.load.atlas('player', './assets/anims/player.png', './assets/anims/player.json');
