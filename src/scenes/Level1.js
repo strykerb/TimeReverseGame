@@ -8,9 +8,9 @@ class Level1 extends Phaser.Scene {
 
     preload() {
         // map made with Tiled in JSON format
-        this.load.tilemapTiledJSON('tilemap1', './assets/tiles/Level1.json');
+        this.load.tilemapTiledJSON('tilemap1', './assets/tiles/Level1Re.json');
         // tiles in spritesheet 
-        this.load.spritesheet('tiles', './assets/tiles/tiles.png', {frameWidth: 70, frameHeight: 70});
+        this.load.spritesheet('tiles', './assets/tiles/Tiles70x70.png', {frameWidth: 70, frameHeight: 70});
 
         this.load.image('coin', './assets/sprites/coinGold.png');
         
