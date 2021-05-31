@@ -260,6 +260,7 @@ class Player extends Phaser.GameObjects.Sprite {
             // Move Player
             this.x = this.past_pos["posX"];
             this.y = this.past_pos["posY"];
+            this.body.setVelocityY(this.jsonObj[0]["velY"]);
 
             // Spawn clone instance
             //this.clone = new Clone(this.curr_scene, this.past_pos["posX"], this.past_pos["posY"], 'player', 0, this.jsonObj);
