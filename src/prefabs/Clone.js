@@ -14,22 +14,6 @@ class Clone extends Phaser.GameObjects.Sprite {
         // this.body.setImmovable(true);
         this.setOrigin(0.5, 0);
         this.body.mass = 4;
-
-        // this.playerCollider = scene.physics.add.sprite(this.x, this.y-this.COLLIDER_OFFSET);
-        // this.playerCollider.scaleY = 1/32;
-        // this.playerCollider.body.allowGravity = false;
-        // this.playerCollider.body.setImmovable(true);
-
-        // scene.physics.add.collider(
-        //     this.playerCollider, 
-        //     scene.player,
-        //     function(_clone, _player){
-        //         console.log("collision");
-        //         // if (_clone.body.touching.up && _player.body.touching.down){
-        //         //     scene.player.attatchToClone(this.playerCollider.body);
-        //         // } 
-        //     }
-        // );
         
         scene.physics.add.collider(
             this, 

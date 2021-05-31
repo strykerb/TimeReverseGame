@@ -8,35 +8,30 @@ class Level2 extends Phaser.Scene {
 
     preload() {
         // map made with Tiled in JSON format
-        this.load.tilemapTiledJSON('tilemap2', './assets/tiles/Level2Temp.json');
-        // tiles in spritesheet 
-        this.load.spritesheet('tiles', './assets/tiles/tiles.png', {frameWidth: 70, frameHeight: 70});
-        
-        // simple coin image
-        this.load.image('coin', './assets/sprites/coinGold.png');
-        this.load.image('door', './assets/sprites/pillar3.png');
-        this.load.image('plate', './assets/sprites/pillar2.png');
-        
-        // player animations
-        this.load.atlas('player', './assets/anims/run_idle_SS.png', './assets/anims/run_idle_SS.json');
-
-        this.load.audio("teleportSound", ["./assets/sounds/timeReverseSound.wav"]);
-
+        this.load.tilemapTiledJSON('tilemap2', './assets/tiles/Level2Re.json');
     }
      
     create() {
-        
+        // Create the Background
+        this.background = this.add.tileSprite(game.config.width/2, game.config.height/2, this.textures.get('backdrop').width, this.textures.get('backdrop').height, 'backdrop').setOrigin(0.5, 0.5);
+        this.background.setScrollFactor(0);
+        this.background.scaleX = 1.1;
+
         // load the map 
         map = this.make.tilemap({key: 'tilemap2'});
 
         this.coolDownBarWidth = 300;
         
         // tiles for the ground layer
-        var groundTiles = map.addTilesetImage('tiles');
+        var groundTiles = map.addTilesetImage('TileSetRe','tiles');
         // create the ground layer
         groundLayer = map.createLayer('Ground', groundTiles, 0, 0);
         // the player will collide with this layer
         groundLayer.setCollisionByExclusion([-1]);
+
+        // load bg tileset
+        bgLayer = map.createLayer("Background", groundTiles, 0, 0);
+        map.createLayer("Acc", groundTiles, 0, 0);
      
         // set the boundaries of our game world
         this.physics.world.bounds.width = groundLayer.width;
@@ -45,14 +40,14 @@ class Level2 extends Phaser.Scene {
         this.particleManager = this.add.particles('particle');
 
         // Instantiate the Player Class  
-        this.player = new Player(this, 2398, 916, 'player');
+        this.player = new Player(this, 382, 916, 'player');
         // this.player = new Player(this, 200, 200, 'player');
 
         // Instantiate a doorway
-        this.doors = [new Doorway(this, 1648, 920, 'door'), new Doorway(this, 1093, 920, 'door')];
+        this.doors = [new Doorway(this, 1150, 920, 'door'), new Doorway(this, 1720, 920, 'door')];
 
         // Instantiate a Pressure Plate
-        this.plates = [new PressurePlate(this, 1718, 908, 'plate', 0, 0), new PressurePlate(this, 1300, 908, 'plate', 0, 1)];
+        this.plates = [new PressurePlate(this, 1100, 920, 'button', 0, 0), new PressurePlate(this, 1400, 908, 'button', 0, 1)];
         
         //player.setBounce(0.2); // our player will bounce from items
         this.player.body.setCollideWorldBounds(true); // don't go out of the map
@@ -110,7 +105,7 @@ class Level2 extends Phaser.Scene {
         this.instructions.setScrollFactor(0, 0);
         this.instructions.alpha = 0;
 
-        winbox = new Objective(this, 100, 450, 'coin');
+        winbox = new Objective(this, 2128, 426, 'coin');
         
         this.finishLevel = () => {
             progress = 2;
@@ -122,11 +117,11 @@ class Level2 extends Phaser.Scene {
             winbox.visible = false;
             this.physics.world.removeCollider(this.overlapCollider);
             win = true;
-            labDoor = this.physics.add.sprite(2398, 916);
+            labDoor = this.physics.add.sprite(382, 916);
             labDoor.setOrigin(0.5, 0.5);
             labDoor.body.allowGravity = false;
             this.overlapCollider = this.physics.add.overlap(labDoor, this.player, this.finishLevel);
-            this.instructions2 = this.add.text(400 , 200, "Return to the Lab", this.hintConfig).setOrigin(0, 0);
+            this.instructions2 = this.add.text(1800 , 500, "Return to the Lab", this.hintConfig).setOrigin(0, 0);
             this.clock = this.time.delayedCall(3000, () => {
                 this.instructions2.alpha = 0;
             }, null, this);
