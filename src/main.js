@@ -10,6 +10,8 @@ var config = {
         }
         //debug: true
     },
+    pixelArt: true,
+    roundPixels: true,
     scene: [Menu, Level1, Level2, Level3],
     fps: {
         target: 60,
