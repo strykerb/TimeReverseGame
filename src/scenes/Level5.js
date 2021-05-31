@@ -1,19 +1,14 @@
 // Protype Scene for testing feasibility of the project
 
-class Level1 extends Phaser.Scene {
+class Level5 extends Phaser.Scene {
     
     constructor() {
-        super("level1");
+        super("level5");
     }
 
     preload() {
         // map made with Tiled in JSON format
-        this.load.tilemapTiledJSON('tilemap1', './assets/tiles/Level1Redo.json');
-        // tiles in spritesheet 
-        this.load.spritesheet('tiles', './assets/tiles/Tiles70x70.png', {frameWidth: 70, frameHeight: 70});
-
-        this.load.image('coin', './assets/sprites/coinGold.png');
-        
+        this.load.tilemapTiledJSON('tilemap5', './assets/tiles/Level5.json');
     }
      
     create() {
@@ -21,10 +16,11 @@ class Level1 extends Phaser.Scene {
         this.background = this.add.tileSprite(game.config.width/2, game.config.height/2, this.textures.get('backdrop').width, this.textures.get('backdrop').height, 'backdrop').setOrigin(0.5, 0.5);
         this.background.setScrollFactor(0);
         this.background.scaleX = 1.1;
-        this.background.setDepth(-4);
+        this.playerSpawnX = 382;
+        this.playerSpawnY = 2316;
 
         // load the map 
-        map = this.make.tilemap({key: 'tilemap1'});
+        map = this.make.tilemap({key: 'tilemap5'});
 
         this.coolDownBarWidth = 300;
         
@@ -32,13 +28,11 @@ class Level1 extends Phaser.Scene {
         var groundTiles = map.addTilesetImage('TileSetRe','tiles');
         // create the ground layer
         groundLayer = map.createLayer('Ground', groundTiles, 0, 0);
-        groundLayer.setDepth(-2);
         // the player will collide with this layer
         groundLayer.setCollisionByExclusion([-1]);
 
         // load bg tileset
         bgLayer = map.createLayer("Background", groundTiles, 0, 0);
-        bgLayer.setDepth(-3);
         map.createLayer("Acc", groundTiles, 0, 0);
      
         // set the boundaries of our game world
@@ -48,10 +42,17 @@ class Level1 extends Phaser.Scene {
         this.particleManager = this.add.particles('particle');
 
         // Instantiate the Player Class  
-        this.player = new Player(this, 467, 1266, 'player');
-        // this.player = new Player(this, 200, 200, 'player');
+        this.player = new Player(this, this.playerSpawnX, this.playerSpawnY, 'player');
+        // this.player = new Player(this, 528, 1056, 'player');
 
-        //player.setBounce(0.2); // our player will bounce from items
+        // Instantiate a doorway
+        this.doors = [new Doorway(this, 2207, 1336, 'door'), new Doorway(this, 2418, 1196, 'door')];
+
+        // Instantiate a Pressure Plate
+        this.plates = [new PressurePlate(this, 2417, 1336, 'button', 0, 0), new PressurePlate(this, 2140, 1336, 'button', 0, 1)];
+
+        this.enemies = [new Enemy(this, 1118, 1546, 'robot')];
+        
         this.player.body.setCollideWorldBounds(true); // don't go out of the map
         	
         // Add collision with the ground
@@ -75,7 +76,6 @@ class Level1 extends Phaser.Scene {
 
         // Create ability cooldown bar
         this.coolDownBar = this.makeBar(game.config.width/2 - this.coolDownBarWidth/2, 20, 0x2ecc71);
-        // this.setValue(this.coolDownBar, 0);
         this.coolDownBar.setScrollFactor(0, 0);
 
         // Load Sound
@@ -108,10 +108,10 @@ class Level1 extends Phaser.Scene {
         this.instructions.setScrollFactor(0, 0);
         this.instructions.alpha = 0;
 
-        winbox = new Objective(this, 2628, 985.9999999999999, 'coin');
+        winbox = new Objective(this, 670, 1290, 'coin');
         
         this.finishLevel = () => {
-            progress = 1;
+            progress = 5;
             this.scene.start("menuScene");
         }
         
@@ -120,13 +120,11 @@ class Level1 extends Phaser.Scene {
             winbox.visible = false;
             this.physics.world.removeCollider(this.overlapCollider);
             win = true;
-            labDoor = this.physics.add.sprite(467, 1266);
+            labDoor = this.physics.add.sprite(this.playerSpawnX, this.playerSpawnY);
             labDoor.setOrigin(0.5, 0.5);
             labDoor.body.allowGravity = false;
             this.overlapCollider = this.physics.add.overlap(labDoor, this.player, this.finishLevel);
-            this.instructions2 = this.add.text(1750 , 900, "Return to the Lab", this.hintConfig).setOrigin(0, 0);
-            this.instructions3.alpha = 0;
-            this.instructions4.alpha = 0;
+            this.instructions2 = this.add.text(1800 , 500, "Return to the Lab", this.hintConfig).setOrigin(0, 0);
             this.clock = this.time.delayedCall(3000, () => {
                 this.instructions2.alpha = 0;
             }, null, this);
@@ -134,35 +132,18 @@ class Level1 extends Phaser.Scene {
         
         this.overlapCollider = this.physics.add.overlap(winbox, this.player, this.reachedObjective);
 
-        this.tutorialTrigger = this.physics.add.sprite(2062, 1000, "coin");
-        this.tutorialTrigger.setOrigin(0.5, 0.5);
-        this.tutorialTrigger.body.allowGravity = false;
-        this.tutorialTrigger.scaleY = 13;
-        this.tutorialTrigger.alpha = 0;
-        this.tutorialCollider = this.physics.add.overlap(this.tutorialTrigger, this.player, () => {
-            console.log("tutorial");
-            this.instructions3 = this.add.text(1800 , 1000, "Spawn a Time Clone and jump", this.scoreConfig).setOrigin(0, 0);
-            this.instructions4 = this.add.text(1800 , 1040, "on them to reach high places", this.scoreConfig).setOrigin(0, 0);
-            this.physics.world.removeCollider(this.tutorialCollider);
-        });
-
-        win = false;
-
-        // Add Win Hitbox
-        // this.winBox = this.physics.add.sprite(2063, 916, 'coin');
-        // this.winBox.body.allowGravity = false;
-        // this.physics.add.collider(
-        //     this.winBox, 
-        //     this.player,
-        //     function(){
-        //         console.log("win");
-        //         this.start("menuScene");
-        //     }
-        // );
+        console.log(this.doors);
 
     }
      
     update(time, delta) {
+        //console.log(time);
+        this.plates.forEach(plate => {
+            plate.update(delta);
+        });
+        this.doors.forEach(door => {
+            door.update(delta);
+        });
         
         this.player.update();
 
