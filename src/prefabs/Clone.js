@@ -14,6 +14,7 @@ class Clone extends Phaser.GameObjects.Sprite {
         // this.body.setImmovable(true);
         this.setOrigin(0.5, 0);
         this.body.mass = 4;
+        this.body.setSize(32, 64, 16, 0);
         
         scene.physics.add.collider(
             this, 
@@ -25,7 +26,10 @@ class Clone extends Phaser.GameObjects.Sprite {
             },
             function(_clone, _player){
                 // if (_player.y < _clone.y + this.height + this.COLLIDER_OFFSET && _player.y > _clone.y + this.height - this.COLLIDER_OFFSET){
-                if (_player.y + _player.height/8 < _clone.y){    
+                if (_player.body.velocity["y"] < 0){
+                    return false;
+                }
+                if (_player.y + _player.height/64 < _clone.y){    
                     return true;
                 } else {
                     return false;

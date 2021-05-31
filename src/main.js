@@ -6,9 +6,10 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: {y: 980},
-            debug: false
-        }
-        //debug: true
+            debug: false,
+            TILE_BIAS: 70
+        },
+        
     },
     pixelArt: true,
     roundPixels: true,

@@ -6,6 +6,7 @@ class Enemy extends Phaser.GameObjects.Sprite{
         scene.physics.add.existing(this);
         this.setOrigin(0.5, 1);
         this.body.allowGravity = false;
+        this.body.setSize(48, 48, 16, 0);
         
         const enterPlatePlayer = (_this, _player) => {
             _player.scene.scene.restart();    // restart current scene

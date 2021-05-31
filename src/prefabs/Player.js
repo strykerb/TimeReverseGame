@@ -43,8 +43,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.cloned = false;
         this.clone = null;
         this.collidingPlate = null;
-
-        console.log(this);
+        this.body.setSize(32, 64, 16, 0);
 
         this.timeAnim.anims.play('timeAnim');
     }

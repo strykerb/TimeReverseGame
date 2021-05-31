@@ -16,6 +16,8 @@ class Level2 extends Phaser.Scene {
         this.background = this.add.tileSprite(game.config.width/2, game.config.height/2, this.textures.get('backdrop').width, this.textures.get('backdrop').height, 'backdrop').setOrigin(0.5, 0.5);
         this.background.setScrollFactor(0);
         this.background.scaleX = 1.1;
+        this.background.setDepth(-4);
+
 
         // load the map 
         map = this.make.tilemap({key: 'tilemap2'});
@@ -26,11 +28,13 @@ class Level2 extends Phaser.Scene {
         var groundTiles = map.addTilesetImage('TileSetRe','tiles');
         // create the ground layer
         groundLayer = map.createLayer('Ground', groundTiles, 0, 0);
+        groundLayer.setDepth(-2);
         // the player will collide with this layer
         groundLayer.setCollisionByExclusion([-1]);
 
         // load bg tileset
         bgLayer = map.createLayer("Background", groundTiles, 0, 0);
+        bgLayer.setDepth(-3);
         map.createLayer("Acc", groundTiles, 0, 0);
      
         // set the boundaries of our game world
@@ -47,7 +51,7 @@ class Level2 extends Phaser.Scene {
         this.doors = [new Doorway(this, 1150, 920, 'door'), new Doorway(this, 1720, 920, 'door')];
 
         // Instantiate a Pressure Plate
-        this.plates = [new PressurePlate(this, 1100, 920, 'button', 0, 0), new PressurePlate(this, 1400, 908, 'button', 0, 1)];
+        this.plates = [new PressurePlate(this, 1100, 920, 'button', 0, 0), new PressurePlate(this, 1400, 920, 'button', 0, 1)];
         
         //player.setBounce(0.2); // our player will bounce from items
         this.player.body.setCollideWorldBounds(true); // don't go out of the map
@@ -72,8 +76,8 @@ class Level2 extends Phaser.Scene {
         this.cameras.main.setBackgroundColor('#ccccff'); 
 
         // Create ability cooldown bar
-        this.coolDownBar = this.makeBar(game.config.width/2 - this.coolDownBarWidth/2, 20, 0x2ecc71);
-        this.coolDownBar.setScrollFactor(0, 0);
+        // this.coolDownBar = this.makeBar(game.config.width/2 - this.coolDownBarWidth/2, 20, 0x2ecc71);
+        // this.coolDownBar.setScrollFactor(0, 0);
 
         // Load Sound
         this.teleportSound = this.sound.add("teleportSound", {loop: false, volume: 0.7});
@@ -101,7 +105,7 @@ class Level2 extends Phaser.Scene {
         }
         
         // Add UI Element to the screen
-        this.instructions = this.add.text(400 , 70, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
+        this.instructions = this.add.text(400 , 680, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
         this.instructions.setScrollFactor(0, 0);
         this.instructions.alpha = 0;
 
@@ -144,7 +148,7 @@ class Level2 extends Phaser.Scene {
         
         this.player.update();
 
-        this.setValue(this.coolDownBar, this.instructions, this.player.jsonObj.length/this.player.TIME_JUMP);
+        this.setValue(this.instructions, this.player.jsonObj.length/this.player.TIME_JUMP);
         
     }
 
@@ -166,9 +170,9 @@ class Level2 extends Phaser.Scene {
         return bar;
     }
     
-    setValue(bar, text, percentage) {
+    setValue(text, percentage) {
         //scale the bar
-        bar.scaleX = percentage;
+        //bar.scaleX = percentage;
         if (percentage >= 0.99){
             text.alpha = 1;
         } else {

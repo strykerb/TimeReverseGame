@@ -40,7 +40,7 @@ class Menu extends Phaser.Scene {
 
         let PREVIOUSConfig = {
             fontFamily: 'Courier',
-            fontSize: '45px',
+            fontSize: '30px',
             color: '#faf5c8',
             align: 'right',
             padding: {
@@ -61,7 +61,7 @@ class Menu extends Phaser.Scene {
         }
 
         if (!progress){
-            progress = 0;
+            progress = 3;
         }
 
         let i;
@@ -76,7 +76,6 @@ class Menu extends Phaser.Scene {
                 this.levels[i].setInteractive();
             } 
 
-            console.log(this.levels[i]);
             let index = i;
 
             this.levels[i].on('pointerover', () => {
@@ -89,26 +88,8 @@ class Menu extends Phaser.Scene {
                 this.scene.start(levelName); 
             });
         }
-        console.log(this.levels)
-        
-        
-        // // Add Play Button to the Screen
-        // this.lvl1 = this.add.text(game.config.width/6 , game.config.height/2, "2052", PLAYConfig).setOrigin(0.5, 0.5);
-        // this.lvl1.setInteractive();
-        // this.lvl1.on('pointerover', () => { enterButtonHoverState(this.lvl1); });
-        // this.lvl1.on('pointerout', () => { enterButtonRestState(this.lvl1); });
-        // this.lvl1.on('pointerdown', () => { 
-        //     this.scene.start("level1"); 
-        // });
 
-        // // Add Play Button to the Screen
-        // this.lvl2 = this.add.text(game.config.width/3, game.config.height/2, "2051", PLAYConfig).setOrigin(0.5, 0.5);
-        // if (progress > 0){this.lvl2.setInteractive();}
-        // this.lvl2.on('pointerover', () => { enterButtonHoverState(this.lvl2); });
-        // this.lvl2.on('pointerout', () => { enterButtonRestState(this.lvl2); });
-        // this.lvl2.on('pointerdown', () => { 
-        //     this.scene.start("level2"); 
-        // });
+        this.controls = this.add.text(game.config.width/2, 3*game.config.height/4, "Controls: Arrow Keys for Player Movement", PREVIOUSConfig).setOrigin(0.5, 0.5);
     }
 
 }

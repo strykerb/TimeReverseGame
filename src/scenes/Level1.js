@@ -74,9 +74,9 @@ class Level1 extends Phaser.Scene {
         this.cameras.main.setBackgroundColor('#ccccff'); 
 
         // Create ability cooldown bar
-        this.coolDownBar = this.makeBar(game.config.width/2 - this.coolDownBarWidth/2, 20, 0x2ecc71);
+        //this.coolDownBar = this.makeBar(game.config.width/2 - this.coolDownBarWidth/2, 20, 0x2ecc71);
         // this.setValue(this.coolDownBar, 0);
-        this.coolDownBar.setScrollFactor(0, 0);
+        //this.coolDownBar.setScrollFactor(0, 0);
 
         // Load Sound
         this.teleportSound = this.sound.add("teleportSound", {loop: false, volume: 0.7});
@@ -104,7 +104,7 @@ class Level1 extends Phaser.Scene {
         }
         
         // Add UI Element to the screen
-        this.instructions = this.add.text(400 , 70, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
+        this.instructions = this.add.text(400 , 680, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
         this.instructions.setScrollFactor(0, 0);
         this.instructions.alpha = 0;
 
@@ -166,7 +166,7 @@ class Level1 extends Phaser.Scene {
         
         this.player.update();
 
-        this.setValue(this.coolDownBar, this.instructions, this.player.jsonObj.length/this.player.TIME_JUMP);
+        this.setValue(this.instructions, this.player.jsonObj.length/this.player.TIME_JUMP);
         
     }
 
@@ -188,9 +188,9 @@ class Level1 extends Phaser.Scene {
         return bar;
     }
     
-    setValue(bar, text, percentage) {
+    setValue(text, percentage) {
         //scale the bar
-        bar.scaleX = percentage;
+        //bar.scaleX = percentage;
         if (percentage >= 0.99){
             text.alpha = 1;
         } else {
