@@ -8,6 +8,7 @@ class Menu extends Phaser.Scene {
         this.load.image('particle', './assets/sprites/5x5_white.png');
         this.load.image('backdrop', './assets/tiles/repairsky.png');
         this.load.image('coin', './assets/sprites/coinGold.png');
+        this.load.image('robot', './assets/sprites/bipedal-unit1.png')
 
         // player animations
         this.load.atlas('player', './assets/anims/player.png', './assets/anims/player.json');
@@ -60,7 +61,7 @@ class Menu extends Phaser.Scene {
         }
 
         if (!progress){
-            progress = 0;
+            progress = 2;
         }
 
         let i;

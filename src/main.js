@@ -10,7 +10,7 @@ var config = {
         }
         //debug: true
     },
-    scene: [Menu, Level1, Level2],
+    scene: [Menu, Level1, Level2, Level3],
     fps: {
         target: 60,
         forceSetTimeOut: true
