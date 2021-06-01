@@ -62,6 +62,7 @@ class Level3 extends Phaser.Scene {
         	
         // Add collision with the ground
         this.physics.add.collider(groundLayer, this.player);
+        this.physics.add.collider(groundLayer, this.enemies);
 
         // Adding keyboard input
         // Create key bindings
