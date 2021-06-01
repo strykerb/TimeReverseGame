@@ -44,8 +44,10 @@ class Player extends Phaser.GameObjects.Sprite {
         this.clone = null;
         this.collidingPlate = null;
         this.body.setSize(32, 64, 16, 0);
+        this.line = new Phaser.Geom.Line(x-16, y+64, x+16, y+64);
 
         this.timeAnim.anims.play('timeAnim');
+        this.setupEmitter();
     }
 
     update(){
@@ -123,6 +125,15 @@ class Player extends Phaser.GameObjects.Sprite {
         
         // Decide whether clone should expire, and process accordingly
         this.processClone();
+
+        if (this.jsonObj.length >= this.TIME_JUMP-1){
+            this.scene.pastEmitter.resume();
+            this.scene.pastEmitter.setPosition(this.past_pos["posX"], this.past_pos["posY"]+64);
+            console.log (this.past_pos["posX"], this.past_pos["posY"]);
+        } else {
+            this.scene.pastEmitter.pause();
+            this.scene.pastEmitter.killAll();
+        }
     }
 
     createAnims(){
@@ -232,6 +243,7 @@ class Player extends Phaser.GameObjects.Sprite {
         });
         
         this.setVisible(false);
+        this.body.enable = false;
         
         // Disable Input
         //this.scene.input.keyboard.enabled = false;
@@ -253,6 +265,7 @@ class Player extends Phaser.GameObjects.Sprite {
             this.teleporting = false;
             this.cloned = true;
             this.setVisible(true);
+            this.body.enable = true;
             this.scene.movingEmitter.pause();
             this.scene.movingEmitter.killAll()
 
@@ -281,6 +294,21 @@ class Player extends Phaser.GameObjects.Sprite {
             
         }, null, this);
 
+    }
+
+    setupEmitter(){
+        // create line for particle emitter source
+        
+        this.scene.pastEmitter = this.scene.particleManager.createEmitter({
+            x: this.x,
+            y: this.y + 64,
+            gravityY: -100,
+            lifespan: { min: 500, max: 1000, steps: 1000 },
+            scale: { start: 1, end: 0.1 },
+            tint: [ 0x00ffff, 0x0000ff ],
+            angle: { min: 0, max: 360 },
+            // emitZone: { type: 'random', source: this.line, quantity: 100 }
+        });
     }
 
     // Decide whether clone has expired or not
