@@ -46,8 +46,8 @@ class Level5 extends Phaser.Scene {
         this.particleManager = this.add.particles('particle');
 
         // Instantiate the Player Class  
-        // this.player = new Player(this, this.playerSpawnX, this.playerSpawnY, 'player');
-        this.player = new Player(this, 1224, 916, 'player');
+        this.player = new Player(this, this.playerSpawnX, this.playerSpawnY, 'player');
+        // this.player = new Player(this, 1224, 916, 'player');
 
         // Instantiate a doorway
         this.doors = [new Doorway(this, 2207, 1336, 'door'), new Doorway(this, 2418, 1196, 'door'), new Doorway(this, 945, 986, 'door'),];
