@@ -21,6 +21,27 @@ class Enemy extends Phaser.GameObjects.Sprite{
             this
         );
 
+        this.createAnims();
+        this.anims.play("walk");
 
+    }
+
+    update(){
+        if (this.body.velocity["x"] < 0){
+            this.flipX = true; 
+        } else {
+            this.flipX = false;
+
+        }
+    }
+
+    createAnims(){
+        // Setup Walk Animation
+        this.anims.create({
+            key: 'walk',
+            frames: this.anims.generateFrameNames('enemy', { prefix: 'walk', start: 1, end: 7 }),
+            frameRate: 8,
+            repeat: -1
+        });
     }
 }

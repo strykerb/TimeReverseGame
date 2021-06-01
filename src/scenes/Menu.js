@@ -12,6 +12,7 @@ class Menu extends Phaser.Scene {
 
         // player animations
         this.load.atlas('player', './assets/anims/player.png', './assets/anims/player.json');
+        this.load.atlas('enemy', './assets/anims/enemyWalk.png', './assets/anims/enemyWalk.json');
         this.load.atlas('button', './assets/sprites/button.png', './assets/sprites/button.json');
         this.load.atlas('timeAnim', './assets/anims/timeAnim.png', './assets/anims/timeAnim.json');
 

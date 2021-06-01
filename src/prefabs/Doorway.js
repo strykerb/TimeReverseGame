@@ -85,8 +85,6 @@ class Doorway extends Phaser.GameObjects.Sprite {
             yoyo: false
         });
         
-        //this.y = this.past_pos;
-        console.log("reverting to " + this.past_pos);
         this.jsonObj = [];
     }
     

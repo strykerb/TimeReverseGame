@@ -129,11 +129,15 @@ class Player extends Phaser.GameObjects.Sprite {
         if (this.jsonObj.length >= this.TIME_JUMP-1){
             this.scene.pastEmitter.resume();
             this.scene.pastEmitter.setPosition(this.past_pos["posX"], this.past_pos["posY"]+64);
-            console.log (this.past_pos["posX"], this.past_pos["posY"]);
         } else {
             this.scene.pastEmitter.pause();
             this.scene.pastEmitter.killAll();
         }
+
+        // Update all enemies in the scene
+        this.scene.enemies.forEach(enemy => {
+            enemy.update();
+        });
     }
 
     createAnims(){
@@ -253,7 +257,6 @@ class Player extends Phaser.GameObjects.Sprite {
 
         const cam = this.scene.cameras.main;
         cam.pan(this.past_pos["posX"], this.past_pos["posY"], this.TELEPORT_TIME, Phaser.Math.Easing.Quadratic.InOut);
-        console.log("past pos: " + this.past_pos["posX"], this.past_pos["posY"]);
 
         if (this.scene.doors){
             this.scene.doors.forEach(door => {
