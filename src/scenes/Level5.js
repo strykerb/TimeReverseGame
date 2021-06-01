@@ -46,16 +46,16 @@ class Level5 extends Phaser.Scene {
         this.particleManager = this.add.particles('particle');
 
         // Instantiate the Player Class  
-        // this.player = new Player(this, this.playerSpawnX, this.playerSpawnY, 'player');
-        this.player = new Player(this, 528, 1056, 'player');
+        this.player = new Player(this, this.playerSpawnX, this.playerSpawnY, 'player');
+        // this.player = new Player(this, 1224, 916, 'player');
 
         // Instantiate a doorway
-        this.doors = [new Doorway(this, 2207, 1336, 'door'), new Doorway(this, 2418, 1196, 'door')];
+        this.doors = [new Doorway(this, 2207, 1336, 'door'), new Doorway(this, 2418, 1196, 'door'), new Doorway(this, 945, 986, 'door'),];
 
         // Instantiate a Pressure Plate
-        this.plates = [new PressurePlate(this, 2417, 1336, 'button', 0, 0), new PressurePlate(this, 2140, 1336, 'button', 0, 1)];
+        this.plates = [new PressurePlate(this, 2417, 1336, 'button', 0, 0), new PressurePlate(this, 2140, 1336, 'button', 0, 1), new PressurePlate(this, 1224, 986, 'button', 0, 2)];
 
-        this.enemies = [new Enemy(this, 1118, 1546, 'robot')];
+        this.enemies = [new Enemy(this, 884, 980, 'robot'), new Enemy(this, 1996, 2170, 'robot'), new Enemy(this, 1511, 2170, 'robot'), new Enemy(this, 2491, 2380, 'robot'), new Enemy(this, 2806, 2380, 'robot')];
         
         this.player.body.setCollideWorldBounds(true); // don't go out of the map
         	
@@ -112,7 +112,7 @@ class Level5 extends Phaser.Scene {
         this.instructions.setScrollFactor(0, 0);
         this.instructions.alpha = 0;
 
-        winbox = new Objective(this, 670, 1290, 'coin');
+        winbox = new Objective(this, 736, 876, 'coin');
         
         this.finishLevel = () => {
             progress = 5;
