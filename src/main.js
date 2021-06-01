@@ -7,7 +7,8 @@ var config = {
         arcade: {
             gravity: {y: 980},
             debug: false,
-            TILE_BIAS: 70
+            tileBias: 70,
+            overlapBias: 8,
         },
         
     },
