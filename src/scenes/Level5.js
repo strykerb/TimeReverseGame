@@ -55,7 +55,8 @@ class Level5 extends Phaser.Scene {
         // Instantiate a Pressure Plate
         this.plates = [new PressurePlate(this, 2417, 1336, 'button', 0, 0), new PressurePlate(this, 2140, 1336, 'button', 0, 1), new PressurePlate(this, 1224, 986, 'button', 0, 2)];
 
-        this.enemies = [new Enemy(this, 884, 980, 'robot'), new Enemy(this, 1996, 2170, 'robot'), new Enemy(this, 1511, 2170, 'robot'), new Enemy(this, 2491, 2380, 'robot'), new Enemy(this, 2806, 2380, 'robot')];
+        this.enemyEmitters = [];
+        this.enemies = [new Enemy(this, 884, 980, 'robot', 0, 0), new Enemy(this, 1996, 2170, 'robot', 0, 1), new Enemy(this, 1511, 2170, 'robot', 0, 2), new Enemy(this, 2491, 2380, 'robot', 0, 3), new Enemy(this, 2806, 2380, 'robot', 0, 4)];
         
         this.player.body.setCollideWorldBounds(true); // don't go out of the map
         	

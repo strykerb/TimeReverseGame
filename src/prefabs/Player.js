@@ -222,8 +222,8 @@ class Player extends Phaser.GameObjects.Sprite {
     }
 
     // Creates a child clone, and passes it the jsonObj
+    // Also calls revert on all reversible game objects
     makeClone(){
-        //console.log(this.x + ", " + this.y);
         this.teleporting = true;
         this.timeAnim.alpha = 0;
 
@@ -261,6 +261,12 @@ class Player extends Phaser.GameObjects.Sprite {
         if (this.scene.doors){
             this.scene.doors.forEach(door => {
                 door.revert();
+            });
+        }
+
+        if (this.scene.enemies){
+            this.scene.enemies.forEach(enemy => {
+                enemy.revert();
             });
         }
 
