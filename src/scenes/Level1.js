@@ -2,6 +2,8 @@
 
 class Level1 extends Phaser.Scene {
     
+    
+    
     constructor() {
         super("level1");
     }
@@ -17,6 +19,23 @@ class Level1 extends Phaser.Scene {
     }
      
     create() {
+        this.Dialogue = [{speaker: 1, time: 2000, text: "Fancy seeing you here."},
+            {speaker: 0, time: 2000, text: "Wait... You’re… Me."},
+            {speaker: 1, time: 5000, text: "Yes and no. The important thing is, your portal is broken, and you need to fix it in order to go further back in time."},
+            {speaker: 0, time: 2000, text: "How are you here?"},
+            {speaker: 1, time: 7000, text: "I’m you, from the future. Sort of. Anyways, the piece that will get your portal up and running again is just ahead, but it’s too high for you to reach alone."},
+            {speaker: 0, time: 2000, text: "So you’re gonna help me?"},
+            {speaker: 1, time: 3000, text: "No, you’re gonna help yourself. In the future."},
+            {speaker: 0, time: 1500, text: "What?"}, 
+            {speaker: 1, time: 6000, text: "See this Energy hotspot in front of me? That’s the time rift that shows up wherever you were a couple of seconds ago."}, 
+            {speaker: 1, time: 9000, text: "When you see yourself charged with energy, all you need to do is activate your Time Warp, and you’ll be transported back to that spot, across space and time."}, 
+            {speaker: 0, time: 3000, text: "So how does going backwards help me get up there?"}, 
+            {speaker: 1, time: 6000, text: "When you Time Warp, you can interact with your past-self from an alternate timeline. A time clone, if you will."}, 
+            {speaker: 1, time: 9000, text: "All you gotta do is stand in the right spot, Time Warp, and then jump on your time clone’s head. That should give you the boost you need to get up there."}, 
+            {speaker: 0, time: 2000, text: "Sounds easy enough."}, 
+            {speaker: 1, time: 4000, text: "Don’t give up. You know they wouldn’t have given up on you."}, 
+        ];
+        
         // Create the Background
         this.background = this.add.tileSprite(game.config.width/2, game.config.height/2, this.textures.get('backdrop').width, this.textures.get('backdrop').height, 'backdrop').setOrigin(0.5, 0.5);
         this.background.setScrollFactor(0);
@@ -49,13 +68,21 @@ class Level1 extends Phaser.Scene {
 
         // Instantiate the Player Class  
         this.player = new Player(this, 467, 1266, 'player');
-        // this.player = new Player(this, 200, 200, 'player');
+        // this.player = new Player(this, 1996, 1200, 'player');
 
         //player.setBounce(0.2); // our player will bounce from items
         this.player.body.setCollideWorldBounds(true); // don't go out of the map
         	
         // Add collision with the ground
         this.physics.add.collider(groundLayer, this.player);
+
+        this.doors = [];
+
+        this.plates = [];
+
+        this.enemies = [];
+        
+        this.enemyEmitters = [];
 
         // Adding keyboard input
         // Create key bindings
@@ -102,9 +129,17 @@ class Level1 extends Phaser.Scene {
             bottom: 5,
             }
         }
+
+        this.dialogueConfig = {
+            fontFamily: 'Courier',
+            fontSize: '25px',
+            color: '#faf5c8',
+            align: 'left', 
+            wordWrap: { width: 450, useAdvancedWrap: true }
+        }
         
         // Add UI Element to the screen
-        this.instructions = this.add.text(400 , 680, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
+        this.instructions = this.add.text(400 , 280, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
         this.instructions.setScrollFactor(0, 0);
         this.instructions.alpha = 0;
 
@@ -125,8 +160,6 @@ class Level1 extends Phaser.Scene {
             labDoor.body.allowGravity = false;
             this.overlapCollider = this.physics.add.overlap(labDoor, this.player, this.finishLevel);
             this.instructions2 = this.add.text(1750 , 900, "Return to the Lab", this.hintConfig).setOrigin(0, 0);
-            this.instructions3.alpha = 0;
-            this.instructions4.alpha = 0;
             this.clock = this.time.delayedCall(3000, () => {
                 this.instructions2.alpha = 0;
             }, null, this);
@@ -141,24 +174,18 @@ class Level1 extends Phaser.Scene {
         this.tutorialTrigger.alpha = 0;
         this.tutorialCollider = this.physics.add.overlap(this.tutorialTrigger, this.player, () => {
             console.log("tutorial");
-            this.instructions3 = this.add.text(1800 , 1000, "Spawn a Time Clone and jump", this.scoreConfig).setOrigin(0, 0);
-            this.instructions4 = this.add.text(1800 , 1040, "on them to reach high places", this.scoreConfig).setOrigin(0, 0);
+            this.player.startTutorial();
             this.physics.world.removeCollider(this.tutorialCollider);
+            this.futureSelf = new FutureClone(this, 2268, 400, "player");
+            this.currDialogue = this.add.text(0 , 0, "", this.dialogueConfig).setOrigin(0, 0);
+            
+            this.clock = this.time.delayedCall(2000, () => {
+                this.engageDialogue(0);
+            }, null, this);
         });
 
         win = false;
-
-        // Add Win Hitbox
-        // this.winBox = this.physics.add.sprite(2063, 916, 'coin');
-        // this.winBox.body.allowGravity = false;
-        // this.physics.add.collider(
-        //     this.winBox, 
-        //     this.player,
-        //     function(){
-        //         console.log("win");
-        //         this.start("menuScene");
-        //     }
-        // );
+        this.tutorialComplete = false;
 
     }
      
@@ -168,6 +195,42 @@ class Level1 extends Phaser.Scene {
 
         this.setValue(this.instructions, this.player.jsonObj.length/this.player.TIME_JUMP);
         
+    }
+
+    engageDialogue(idx){
+        if (idx >= this.Dialogue.length){
+            this.futureSelf.jump();
+            this.currDialogue.text = "";
+            this.clock = this.time.delayedCall(1000, () => {
+                this.futureSelf.destroy();
+                this.player.endTutorial();
+                this.tutorialComplete = true;
+            }, null, this);
+            return;
+        }
+
+        if (idx == 8){
+            this.futureSelf.setupEmitter();
+        }
+
+        let x = 0;
+        let y = 0;
+        if (this.Dialogue[idx]['speaker'] == 0){
+            x = 1800;
+            y = 1200;
+        } else {
+            x = 2050;
+            y = 1050;
+        }
+        this.currDialogue.x = x;
+        this.currDialogue.y = y;
+        this.currDialogue.text = this.Dialogue[idx]['text'];
+        if (idx < this.Dialogue.length){
+            this.clock = this.time.delayedCall(this.Dialogue[idx]['time'], () => {
+                this.engageDialogue(++idx);
+            }, null, this);
+            
+        }
     }
 
     makeBar(x, y, color) {
@@ -191,7 +254,7 @@ class Level1 extends Phaser.Scene {
     setValue(text, percentage) {
         //scale the bar
         //bar.scaleX = percentage;
-        if (percentage >= 0.99){
+        if (percentage >= 0.99 && this.tutorialComplete){
             text.alpha = 1;
         } else {
             text.alpha = 0;

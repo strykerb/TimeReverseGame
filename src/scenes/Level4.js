@@ -55,7 +55,9 @@ class Level4 extends Phaser.Scene {
         // Instantiate a Pressure Plate
         this.plates = [new PressurePlate(this, 1700, 1406, 'button', 0, 0), new PressurePlate(this, 1788, 916, 'button', 0, 1)];
 
-        this.enemies = [new Enemy(this, 1118, 1056, 'robot')];
+        this.enemyEmitters = [];
+
+        this.enemies = [new Enemy(this, 1118, 1050, 'robot', 0, 0)];
         
         //player.setBounce(0.2); // our player will bounce from items
         this.player.body.setCollideWorldBounds(true); // don't go out of the map
@@ -110,9 +112,9 @@ class Level4 extends Phaser.Scene {
         }
         
         // Add UI Element to the screen
-        this.instructions = this.add.text(400 , 680, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
-        this.instructions.setScrollFactor(0, 0);
-        this.instructions.alpha = 0;
+        // this.instructions = this.add.text(400 , 680, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
+        // this.instructions.setScrollFactor(0, 0);
+        // this.instructions.alpha = 0;
 
         winbox = new Objective(this, 2430, 730, 'coin');
         
@@ -153,7 +155,7 @@ class Level4 extends Phaser.Scene {
         
         this.player.update();
 
-        this.setValue(this.instructions, this.player.jsonObj.length/this.player.TIME_JUMP);
+        // this.setValue(this.instructions, this.player.jsonObj.length/this.player.TIME_JUMP);
         
     }
 

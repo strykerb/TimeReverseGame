@@ -53,11 +53,17 @@ class Level2 extends Phaser.Scene {
         // Instantiate a Pressure Plate
         this.plates = [new PressurePlate(this, 1100, 920, 'button', 0, 0), new PressurePlate(this, 1400, 920, 'button', 0, 1)];
         
+        this.enemyEmitters = [];
+        
+        this.enemies = [new Enemy(this, 2221, 910, "robot", 0, 0), new Enemy(this, 1413, 560, "robot", 0, 1)];
+
+        
         //player.setBounce(0.2); // our player will bounce from items
         this.player.body.setCollideWorldBounds(true); // don't go out of the map
         	
         // Add collision with the ground
         this.physics.add.collider(groundLayer, this.player);
+        this.physics.add.collider(groundLayer, this.enemies);
 
         // Adding keyboard input
         // Create key bindings
@@ -105,9 +111,9 @@ class Level2 extends Phaser.Scene {
         }
         
         // Add UI Element to the screen
-        this.instructions = this.add.text(400 , 680, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
-        this.instructions.setScrollFactor(0, 0);
-        this.instructions.alpha = 0;
+        // this.instructions = this.add.text(400 , 680, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
+        // this.instructions.setScrollFactor(0, 0);
+        // this.instructions.alpha = 0;
 
         winbox = new Objective(this, 2128, 426, 'coin');
         
@@ -148,7 +154,7 @@ class Level2 extends Phaser.Scene {
         
         this.player.update();
 
-        this.setValue(this.instructions, this.player.jsonObj.length/this.player.TIME_JUMP);
+        // this.setValue(this.instructions, this.player.jsonObj.length/this.player.TIME_JUMP);
         
     }
 

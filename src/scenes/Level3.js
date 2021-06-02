@@ -47,7 +47,7 @@ class Level3 extends Phaser.Scene {
 
         // Instantiate the Player Class  
         this.player = new Player(this, this.playerSpawnX, this.playerSpawnY, 'player');
-        // this.player = new Player(this, 1962, 496, 'player');
+        // this.player = new Player(this, 1970, 560, 'player');
 
         // Instantiate a doorway
         this.doors = [new Doorway(this, 2133, 570, 'door')];
@@ -55,7 +55,9 @@ class Level3 extends Phaser.Scene {
         // Instantiate a Pressure Plate
         this.plates = [new PressurePlate(this, 2083, 570, 'button', 0, 0)];
 
-        this.enemies = [new Enemy(this, 2393,  625, 'robot')];
+        this.enemyEmitters = [];
+        
+        this.enemies = [new Enemy(this, 2344, 630, 'robot', 0, 0), new Enemy(this, 2196, 1890, 'robot', 0, 1)];
         
         //player.setBounce(0.2); // our player will bounce from items
         this.player.body.setCollideWorldBounds(true); // don't go out of the map
@@ -110,9 +112,9 @@ class Level3 extends Phaser.Scene {
         }
         
         // Add UI Element to the screen
-        this.instructions = this.add.text(400 , 680, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
-        this.instructions.setScrollFactor(0, 0);
-        this.instructions.alpha = 0;
+        // this.instructions = this.add.text(400 , 680, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
+        // this.instructions.setScrollFactor(0, 0);
+        // this.instructions.alpha = 0;
 
         winbox = new Objective(this, 2300, 525, 'coin');
         
@@ -153,7 +155,7 @@ class Level3 extends Phaser.Scene {
         
         this.player.update();
 
-        this.setValue(this.instructions, this.player.jsonObj.length/this.player.TIME_JUMP);
+        // this.setValue(this.instructions, this.player.jsonObj.length/this.player.TIME_JUMP);
         
     }
 

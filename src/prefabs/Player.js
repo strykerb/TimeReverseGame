@@ -13,6 +13,7 @@ class Player extends Phaser.GameObjects.Sprite {
     jumping = false;
     landing = false;
     falling = false;
+    tutorialActive = false;
     
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
@@ -51,11 +52,22 @@ class Player extends Phaser.GameObjects.Sprite {
     }
 
     update(){
-        // Check if player should no longer be attatched to the clone
-        let netVelocity = 0;
+        // Update all enemies in the scene
+        this.scene.enemies.forEach(enemy => {
+            enemy.update();
+        });
 
         this.timeAnim.x = this.x;
         this.timeAnim.y = this.y + this.height/2;
+
+        // Block player input if the tutorial is active
+        if (this.tutorialActive){
+            this.scene.futureSelf.update();
+            return;
+        }
+        
+        // Check if player should no longer be attatched to the clone
+        let netVelocity = 0;
 
         // block player input during teleport
         if (this.teleporting){
@@ -133,11 +145,6 @@ class Player extends Phaser.GameObjects.Sprite {
             this.scene.pastEmitter.pause();
             this.scene.pastEmitter.killAll();
         }
-
-        // Update all enemies in the scene
-        this.scene.enemies.forEach(enemy => {
-            enemy.update();
-        });
     }
 
     createAnims(){
@@ -153,6 +160,7 @@ class Player extends Phaser.GameObjects.Sprite {
             key: 'idle',
             frames: this.anims.generateFrameNames('player', { prefix: 'idle', start: 1, end: 6 }),
             frameRate: 10,
+            repeat: -1
         });
         this.anims.create({
             key: 'jump',
@@ -224,6 +232,7 @@ class Player extends Phaser.GameObjects.Sprite {
     // Creates a child clone, and passes it the jsonObj
     // Also calls revert on all reversible game objects
     makeClone(){
+        console.log(this.body.x, (this.body.y+64));
         this.teleporting = true;
         this.timeAnim.alpha = 0;
 
@@ -339,5 +348,15 @@ class Player extends Phaser.GameObjects.Sprite {
 
     attatchToClone(clone){
         this.attatched = true;
+    }
+
+    startTutorial(){
+        this.tutorialActive = true;
+        this.body.setVelocityX(0);
+        this.anims.play('idle');
+    }
+
+    endTutorial(){
+        this.tutorialActive = false;
     }
 }

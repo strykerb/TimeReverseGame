@@ -110,9 +110,9 @@ class Level5 extends Phaser.Scene {
         }
         
         // Add UI Element to the screen
-        this.instructions = this.add.text(400 , 680, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
-        this.instructions.setScrollFactor(0, 0);
-        this.instructions.alpha = 0;
+        // this.instructions = this.add.text(400 , 680, "Press Space to Reverse Time", this.scoreConfig).setOrigin(0, 0);
+        // this.instructions.setScrollFactor(0, 0);
+        // this.instructions.alpha = 0;
 
         winbox = new Objective(this, 736, 876, 'coin');
         
@@ -153,7 +153,7 @@ class Level5 extends Phaser.Scene {
         
         this.player.update();
 
-        this.setValue(this.instructions, this.player.jsonObj.length/this.player.TIME_JUMP);
+        // this.setValue(this.instructions, this.player.jsonObj.length/this.player.TIME_JUMP);
         
     }
 
