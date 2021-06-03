@@ -73,8 +73,8 @@ class Level1 extends Phaser.Scene {
         this.particleManager = this.add.particles('particle');
 
         // Instantiate the Player Class  
-        // this.player = new Player(this, 467, 1266, 'player');
-        this.player = new Player(this, 2000, 1200, 'player');
+        this.player = new Player(this, 467, 1266, 'player');
+        // this.player = new Player(this, 2000, 1200, 'player');
 
         //player.setBounce(0.2); // our player will bounce from items
         this.player.body.setCollideWorldBounds(true); // don't go out of the map
@@ -267,6 +267,13 @@ class Level1 extends Phaser.Scene {
                 ease: 'Linear'
             });
         }
+        if (this.Dialogue[idx]['speaker'] == 1){
+            this.box.flipX = true;
+        } else {
+            this.box.flipX = false;
+
+        }
+
         this.currDialogue.x = x;
         this.currDialogue.y = y;
         let currentChar = 0; 

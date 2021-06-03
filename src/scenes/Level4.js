@@ -57,7 +57,7 @@ class Level4 extends Phaser.Scene {
 
         this.enemyEmitters = [];
 
-        this.enemies = [new Enemy(this, 1118, 1050, 'robot', 0, 0)];
+        this.enemies = [new Enemy(this, 1200, 1050, 'robot', 0, 0)];
         
         //player.setBounce(0.2); // our player will bounce from items
         this.player.body.setCollideWorldBounds(true); // don't go out of the map

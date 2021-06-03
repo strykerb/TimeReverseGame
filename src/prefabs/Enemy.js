@@ -8,7 +8,6 @@ class Enemy extends Phaser.GameObjects.Sprite{
         this.body.allowGravity = false;
         this.body.setSize(48, 48, 16, 0);
         this.body.setVelocity(-100, 0).setBounce(1).setCollideWorldBounds(true);
-        this.body.setImmovable(true);
 
         this.idx = index;
 
