@@ -48,7 +48,7 @@ class Level2 extends Phaser.Scene {
         // this.player = new Player(this, 200, 200, 'player');
 
         // Instantiate a doorway
-        this.doors = [new Doorway(this, 1150, 920, 'door'), new Doorway(this, 1720, 920, 'door')];
+        this.doors = [new Doorway(this, 1150, 910, 'door'), new Doorway(this, 1720, 910, 'door')];
 
         // Instantiate a Pressure Plate
         this.plates = [new PressurePlate(this, 1100, 920, 'button', 0, 0), new PressurePlate(this, 1400, 920, 'button', 0, 1)];
@@ -89,7 +89,7 @@ class Level2 extends Phaser.Scene {
         this.teleportSound = this.sound.add("teleportSound", {loop: false, volume: 0.7});
 
         this.scoreConfig = {
-            fontFamily: 'Courier',
+            fontFamily: 'Cyberfunk',
             fontSize: '30px',
             color: '#faf5c8',
             align: 'right',
@@ -100,7 +100,7 @@ class Level2 extends Phaser.Scene {
         }
 
         this.hintConfig = {
-            fontFamily: 'Courier',
+            fontFamily: 'Cyberfunk',
             fontSize: '60px',
             color: '#faf5c8',
             align: 'right',

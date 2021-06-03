@@ -50,7 +50,7 @@ class Level3 extends Phaser.Scene {
         // this.player = new Player(this, 1970, 560, 'player');
 
         // Instantiate a doorway
-        this.doors = [new Doorway(this, 2133, 570, 'door')];
+        this.doors = [new Doorway(this, 2133, 560, 'door')];
 
         // Instantiate a Pressure Plate
         this.plates = [new PressurePlate(this, 2083, 570, 'button', 0, 0)];

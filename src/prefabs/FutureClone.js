@@ -40,8 +40,10 @@ class FutureClone extends Phaser.GameObjects.Sprite {
     jump(){
         this.anims.play("jump");
         this.body.setVelocityY(-1500);
-        this.scene.futureEmitter.pause();
-        this.scene.futureEmitter.killAll();
+        if (this.scene.futureEmitter){
+            this.scene.futureEmitter.pause();
+            this.scene.futureEmitter.killAll();
+        }
     }
 
     createAnims(){

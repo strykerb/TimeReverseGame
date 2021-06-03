@@ -26,7 +26,7 @@ class Menu extends Phaser.Scene {
         // tiles in spritesheet 
         this.load.spritesheet('tiles', './assets/tiles/Tiles70x70.png', {frameWidth: 70, frameHeight: 70});
         
-        this.load.image('door', './assets/sprites/pillar3.png');
+        this.load.image('door', './assets/sprites/door.png');
         // this.load.image('plate', './assets/sprites/pillar2.png');
 
     }
