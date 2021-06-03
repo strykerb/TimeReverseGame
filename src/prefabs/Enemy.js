@@ -10,12 +10,16 @@ class Enemy extends Phaser.GameObjects.Sprite{
         this.body.setVelocity(-100, 0).setBounce(1).setCollideWorldBounds(true);
 
         this.idx = index;
+        this.initialY = y;
 
         this.jsonObj = [];
         this.past_pos = [];
         
         const enterPlatePlayer = (_this, _player) => {
-            _player.scene.scene.restart();    // restart current scene
+            _player.kill();
+            this.clock = this.scene.time.delayedCall(1000, () => {
+                _player.scene.scene.restart();    // restart current scene
+            }, null, this);
         };
 
         scene.physics.add.overlap(
@@ -64,6 +68,12 @@ class Enemy extends Phaser.GameObjects.Sprite{
             this.flipX = true; 
         } else {
             this.flipX = false;
+        }
+        if (this.body.velocity["y"] != 0){
+            this.body.setVelocityY(0);
+        }
+        if (this.y != this.initialY){
+            this.y = this.initialY;
         }
     }
 

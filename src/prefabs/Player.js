@@ -14,6 +14,7 @@ class Player extends Phaser.GameObjects.Sprite {
     landing = false;
     falling = false;
     tutorialActive = false;
+    dead = false;
     
     constructor(scene, x, y, texture, frame) {
         super(scene, x, y, texture, frame);
@@ -314,6 +315,37 @@ class Player extends Phaser.GameObjects.Sprite {
 
     }
 
+    kill(){
+        if (this.dead){
+            return;
+        } this.dead = true;
+        
+        // Vanish
+        this.alpha = 0;
+        // This will block player input, no need to add another variable
+        this.teleporting = true;
+        this.body.setVelocityY(0);
+        this.body.setVelocityX(0);
+        this.body.allowGravity = false;
+        this.timeAnim.destroy();
+        
+        this.scene.deathEmitter = this.scene.particleManager.createEmitter({
+            x: this.x,
+            y: this.y+32,
+            speed: { min: 100, max: 400, steps: 5000 },
+            gravityY: 200,
+            quantity: 10,
+            lifespan: 1000,
+            scale: { start: 0.1, end: 2 },
+            tint: [ 0x630000, 0xa30b0b, 0x5e0000],
+        });
+        // That's quite enough blood, stop spawning
+        this.clock = this.scene.time.delayedCall(200, () => {
+            console.log("stopping")
+            this.scene.deathEmitter.stop();
+        }, null, this);
+    }
+
     setupEmitter(){
         // create line for particle emitter source
         
@@ -325,7 +357,6 @@ class Player extends Phaser.GameObjects.Sprite {
             scale: { start: 1, end: 0.1 },
             tint: [ 0x00ffff, 0x0000ff ],
             angle: { min: 0, max: 360 },
-            // emitZone: { type: 'random', source: this.line, quantity: 100 }
         });
         
     }

@@ -288,26 +288,17 @@ class Level1 extends Phaser.Scene {
                 // check if timer has exhausted its repeats 
                 // (necessary since Phaser 3 no longer seems to have an onComplete event)
                 if(this.textTimer.getRepeatCount() == 0) {
-                    console.log("line finished.");
                     // show prompt for more text
                     this.nextText = this.add.text(this.NEXT_X, this.NEXT_Y, this.NEXT_TEXT, this.dialogueConfig).setOrigin(0, 0).setDepth(4);
                     // un-lock input
                     this.dialogTyping = false;
 
-                    console.log(this.nextText);
                     // destroy timer
                     this.textTimer.destroy();
                 }
             },
             callbackScope: this // keep Scene context
         });
-        //this.currDialogue.text = this.Dialogue[idx]['text'];
-        // if (idx < this.Dialogue.length){
-        //     this.clock = this.time.delayedCall(this.Dialogue[idx]['time'], () => {
-        //         this.engageDialogue(++idx);
-        //     }, null, this);
-            
-        // }
     }
 
     Tutorial(){
