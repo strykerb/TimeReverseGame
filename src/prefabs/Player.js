@@ -327,6 +327,7 @@ class Player extends Phaser.GameObjects.Sprite {
             angle: { min: 0, max: 360 },
             // emitZone: { type: 'random', source: this.line, quantity: 100 }
         });
+        
     }
 
     // Decide whether clone has expired or not

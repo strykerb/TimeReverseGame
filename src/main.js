@@ -27,13 +27,22 @@ var game = new Phaser.Game(config);
 var map;
 var player;
 var cursors;
-let keyLEFT, keyRIGHT, keyUP, keySPACE;
+let keyLEFT, keyRIGHT, keyUP, keySPACE, keyENTER;
 var groundLayer, coinLayer, bgLayer;
 var text;
 var winbox;
 var win;
 var labDoor;
 var progress;
+
+function loadFont(name, url) {
+    var newFont = new FontFace(name, `url(${url})`);
+    newFont.load().then(function (loaded) {
+        document.fonts.add(loaded);
+    }).catch(function (error) {
+        return error;
+    });
+}
 
 function enterButtonHoverState(index) {
     game.scene.scenes[0].levels[index].scaleX = 1.5;
