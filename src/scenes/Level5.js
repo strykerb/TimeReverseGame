@@ -69,10 +69,10 @@ class Level5 extends Phaser.Scene {
 
         // Instantiate the Player Class  
         this.player = new Player(this, this.playerSpawnX, this.playerSpawnY, 'player');
-        // this.player = new Player(this, 2675, 1470, 'player');
+        // this.player = new Player(this, 2270, 1330, 'player');
 
         // Instantiate a doorway
-        this.doors = [new Doorway(this, 2207, 1330, 'door'), new Doorway(this, 2418, 1190, 'door'), new Doorway(this, 945, 980, 'door'),];
+        this.doors = [new Doorway(this, 2205, 1330, 'door'), new Doorway(this, 2415, 1190, 'door'), new Doorway(this, 945, 980, 'door'),];
 
         // Instantiate a Pressure Plate
         this.plates = [new PressurePlate(this, 2417, 1336, 'button', 0, 0), new PressurePlate(this, 2140, 1336, 'button', 0, 1), new PressurePlate(this, 1224, 986, 'button', 0, 2)];
