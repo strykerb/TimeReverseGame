@@ -116,7 +116,7 @@ class Level4 extends Phaser.Scene {
         // this.instructions.setScrollFactor(0, 0);
         // this.instructions.alpha = 0;
 
-        winbox = new Objective(this, 2430, 730, 'coin');
+        winbox = new Objective(this, 2430, 730, 'wrench');
         
         this.finishLevel = () => {
             progress = 4;

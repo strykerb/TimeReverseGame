@@ -145,7 +145,7 @@ class Level5 extends Phaser.Scene {
         // this.instructions.setScrollFactor(0, 0);
         // this.instructions.alpha = 0;
 
-        winbox = new Objective(this, 736, 876, 'coin');
+        winbox = new Objective(this, 736, 876, 'wrench');
         
         this.finishLevel = () => {
             progress = 5;
