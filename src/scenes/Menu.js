@@ -20,6 +20,9 @@ class Menu extends Phaser.Scene {
         this.load.atlas('enemy', './assets/anims/enemyWalk.png', './assets/anims/enemyWalk.json');
         this.load.atlas('button', './assets/sprites/button.png', './assets/sprites/button.json');
         this.load.atlas('timeAnim', './assets/anims/timeAnim.png', './assets/anims/timeAnim.json');
+        this.load.atlas('timeWarp', './assets/anims/timewarpSS.png', './assets/anims/timewarp.json');
+        this.load.atlas('wrench', './assets/anims/wrenchSS.png', './assets/anims/wrench.json');
+        this.load.atlas('portal', './assets/anims/portalSS.png', './assets/anims/portal.json');
 
         this.load.audio("teleportSound", ["./assets/sounds/timeReverseSound.wav"]);
 
@@ -68,7 +71,7 @@ class Menu extends Phaser.Scene {
 
 
         if (!progress){
-            progress = 2;
+            progress = 0;
         }
 
         let i;
