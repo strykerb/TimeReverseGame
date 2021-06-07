@@ -18,7 +18,7 @@ class Level1 extends Phaser.Scene {
         // map made with Tiled in JSON format
         this.load.tilemapTiledJSON('tilemap1', './assets/tiles/Level1Redo.json');
         // tiles in spritesheet 
-        this.load.spritesheet('tiles', './assets/tiles/Tiles70x70.png', {frameWidth: 70, frameHeight: 70});
+        this.load.spritesheet('tiles', './assets/tiles/TilesR.png', {frameWidth: 70, frameHeight: 70});
 
         this.load.image('coin', './assets/sprites/coinGold.png');
         
@@ -54,7 +54,7 @@ class Level1 extends Phaser.Scene {
         this.coolDownBarWidth = 300;
         
         // tiles for the ground layer
-        var groundTiles = map.addTilesetImage('TileSetRe','tiles');
+        var groundTiles = map.addTilesetImage('TilesR','tiles', 70, 70, 0, 0);
         // create the ground layer
         groundLayer = map.createLayer('Ground', groundTiles, 0, 0);
         groundLayer.setDepth(-2);

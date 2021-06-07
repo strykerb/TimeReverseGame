@@ -27,7 +27,7 @@ class Menu extends Phaser.Scene {
         this.load.audio("teleportSound", ["./assets/sounds/timeReverseSound.wav"]);
 
         // tiles in spritesheet 
-        this.load.spritesheet('tiles', './assets/tiles/Tiles70x70.png', {frameWidth: 70, frameHeight: 70});
+        this.load.spritesheet('tiles', './assets/tiles/TilesR.png', {frameWidth: 70, frameHeight: 70});
         
         this.load.image('door', './assets/sprites/door.png');
         // this.load.image('plate', './assets/sprites/pillar2.png');

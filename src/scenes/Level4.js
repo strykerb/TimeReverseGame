@@ -27,7 +27,7 @@ class Level4 extends Phaser.Scene {
         this.coolDownBarWidth = 300;
         
         // tiles for the ground layer
-        var groundTiles = map.addTilesetImage('TileSetRe','tiles');
+        var groundTiles = map.addTilesetImage('TilesR','tiles', 70, 70, 0, 0);
         // create the ground layer
         groundLayer = map.createLayer('Ground', groundTiles, 0, 0);
         groundLayer.setDepth(-2);
