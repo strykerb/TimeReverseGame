@@ -100,6 +100,8 @@ class Menu extends Phaser.Scene {
         }
 
         this.controls = this.add.text(game.config.width/2, 3*game.config.height/4, "Controls: Arrow Keys for Player Movement", PREVIOUSConfig).setOrigin(0.5, 0.5);
+
+        this.scene.start("lab");
     }
 
 }

@@ -40,11 +40,11 @@ class Lab extends Phaser.Scene {
         // the player will collide with this layer
         groundLayer.setCollisionByExclusion([-1]);
 
-        map.createLayer("Background", groundTiles, 0, 0);
+        map.createLayer("Background", groundTiles, 0, 0).setDepth(-3);
      
         // set the boundaries of our game world
-        this.physics.world.bounds.width = 300;
-        this.physics.world.bounds.height = 200;
+        this.physics.world.bounds.width = groundLayer.width;
+        this.physics.world.bounds.height = groundLayer.height;
 
         this.particleManager = this.add.particles('particle');
 
@@ -81,7 +81,7 @@ class Lab extends Phaser.Scene {
         this.cameras.main.startFollow(this.player);
         
         // set background color, so the sky is not black    
-        this.cameras.main.setBackgroundColor('#ccccff'); 
+        this.cameras.main.setBackgroundColor('#000000'); 
 
         // Create ability cooldown bar
         //this.coolDownBar = this.makeBar(game.config.width/2 - this.coolDownBarWidth/2, 20, 0x2ecc71);
