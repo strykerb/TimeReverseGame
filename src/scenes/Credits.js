@@ -15,9 +15,9 @@ class Credits extends Phaser.Scene {
         fontSize: '56px',
         color: '#faf5c8', });
         this.zone = this.add.zone(config.width/2, config.height/2, config.width, config.height);
-        this.peopleCredits = this.add.text(0, 0, ' \n Programmer, Level Designer and Production Manager By \n Strker Buffington \n\n Artwork By \n Lauren Nakamura \n\n Sound and Tilemap Implementation By \n Rohan Jhangiani', 
+        this.peopleCredits = this.add.text(0, 0, ' \n Programmer, Level Designer and Production Manager By \n Strker Buffington \n\n Artwork By \n Lauren Nakamura \n\n Sound and Tilemap Implementation By \n Rohan Jhangiani \n\n Additional Sound Effects From \n Zapsplat - Alan Mckinney', 
         { fontFamily: 'cyberfunk',
-        fontSize: '40px',
+        fontSize: '30px',
         color: '#faf5c8', });
         
         Phaser.Display.Align.In.Center(
