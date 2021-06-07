@@ -16,30 +16,31 @@ class Lab extends Phaser.Scene {
 
     preload() {
         // map made with Tiled in JSON format
-        this.load.tilemapTiledJSON('labtilemap', './assets/tiles/Lab.json');
+        this.load.tilemapTiledJSON('labtilemap', './assets/tiles/LabB.json');
         // tiles in spritesheet 
-        this.load.image('cyberpunk-corridor.png', './assets/tiles/cyberpunk-corridor.png');
-        this.load.image('cyberpunk-corridor copy.png', './assets/tiles/cyberpunk-corridor copy.png');
-        this.load.spritesheet('tiles', './assets/tiles/Tiles70x70.png', {frameWidth: 70, frameHeight: 70});
+        this.load.spritesheet('tiles', './assets/tiles/TilesR.png', {frameWidth: 70, frameHeight: 70});
 
         this.load.image('coin', './assets/sprites/coinGold.png');
         
     }
      
     create() {
+
+        this.add.image(0, 0, 'tiles');
        
         // load the map 
         map = this.make.tilemap({key: 'labtilemap'});
         
         // tiles for the ground layer
-        var groundTiles = map.addTilesetImage('TileSetRe','tiles');
+        var groundTiles = map.addTilesetImage('TilesR','tiles', 70, 70, 0, 0);
+
         // create the ground layer
-        groundLayer = map.createLayer('Tile Layer 1', groundTiles, 0, 0);
+        groundLayer = map.createLayer('Ground', groundTiles, 0, 0);
         groundLayer.setDepth(-2);
         // the player will collide with this layer
         groundLayer.setCollisionByExclusion([-1]);
 
-        map.createLayer("Acc", groundTiles, 0, 0);
+        map.createLayer("Background", groundTiles, 0, 0);
      
         // set the boundaries of our game world
         this.physics.world.bounds.width = 300;
@@ -48,7 +49,7 @@ class Lab extends Phaser.Scene {
         this.particleManager = this.add.particles('particle');
 
         // Instantiate the Player Class  
-        this.player = new Player(this, 200, 200, 'player');
+        this.player = new Player(this, 150, 150, 'player');
         // this.player = new Player(this, 2000, 1200, 'player');
 
         //player.setBounce(0.2); // our player will bounce from items
