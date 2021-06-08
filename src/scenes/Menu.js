@@ -56,10 +56,6 @@ class Menu extends Phaser.Scene {
             }
         }
 
-        if (!progress){
-            progress = 0;
-        }
-
         this.title = this.add.text(game.config.width/2 , game.config.height/6, "TIMELINE", TITLEConfig).setOrigin(0.5, 0.5);
         this.description = this.add.text(game.config.width/2 , game.config.height/3.5, "Select a Year to travel back to", DESCConfig).setOrigin(0.5, 0.5);
         

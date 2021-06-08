@@ -153,7 +153,9 @@ class Level5 extends Phaser.Scene {
         
         this.finishLevel = () => {
             progress = 5;
-            this.scene.start("menuScene");
+            soundEffects["footsteps"].stop();
+            soundEffects["music"].stop();
+            this.scene.start("mainMenuScene");
         }
         
         this.reachedObjective = () => {

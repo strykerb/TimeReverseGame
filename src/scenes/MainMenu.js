@@ -43,7 +43,7 @@ class MainMenu extends Phaser.Scene {
             progressBox.destroy();
             loadingText.destroy();
         });
-        
+
         this.load.image('particle', './assets/sprites/5x5_white.png');
         this.load.image('backdrop', './assets/tiles/repairsky.png');
         this.load.image('robot', './assets/sprites/bipedal-unit1.png')
