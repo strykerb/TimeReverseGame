@@ -250,7 +250,6 @@ class Player extends Phaser.GameObjects.Sprite {
     }
 
     createSounds(){
-        console.log(this.scene.sound)
         if (soundEffects.length < 4){
             soundEffects["jumpSound"] = this.scene.sound.add("jumpSound", {loop: false, volume: 0.5});
             soundEffects["footsteps"] = this.scene.sound.add("footsteps", {loop: true, volume: 1.0});
@@ -259,7 +258,6 @@ class Player extends Phaser.GameObjects.Sprite {
             this.jumpSound = soundEffects["jumpSound"];
             this.footsteps = soundEffects["footsteps"];
         }
-        console.log(soundEffects)
     }
 
     jump(){
@@ -300,7 +298,6 @@ class Player extends Phaser.GameObjects.Sprite {
     // Creates a child clone, and passes it the jsonObj
     // Also calls revert on all reversible game objects
     makeClone(){
-        console.log(this.body.x, (this.body.y+64));
         this.teleporting = true;
         this.timeAnim.alpha = 0;
         
@@ -440,6 +437,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.tutorialActive = true;
         this.body.setVelocityX(0);
         this.anims.play('idle');
+        soundEffects['footsteps'].stop();
     }
 
     endTutorial(){

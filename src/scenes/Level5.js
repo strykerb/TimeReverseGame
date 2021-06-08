@@ -40,6 +40,10 @@ class Level5 extends Phaser.Scene {
         this.background.scaleX = 1.1;
         this.background.setDepth(-4);
 
+        if (!soundEffects["music"].isPlaying){
+            soundEffects["music"].play();
+        }
+
         this.playerSpawnX = 382;
         this.playerSpawnY = 2316;
 
@@ -153,7 +157,6 @@ class Level5 extends Phaser.Scene {
         }
         
         this.reachedObjective = () => {
-            console.log("entered");
             winbox.visible = false;
             this.physics.world.removeCollider(this.overlapCollider);
             win = true;
@@ -185,7 +188,6 @@ class Level5 extends Phaser.Scene {
     }
      
     update(time, delta) {
-        //console.log(time);
         this.plates.forEach(plate => {
             plate.update(delta);
         });
@@ -312,7 +314,6 @@ class Level5 extends Phaser.Scene {
             this.box.flipX = true;
             // this.bg = this.physics.add.image(this, game.config.width/2, game.config.height/2, 'dialoguebg', 0).setOrigin(0.5, 0.5);
             // this.bg.setDepth(1);
-            console.log(this.bg);
             this.engageDialogue(this.dialogIndex);
         }, null, this);
     }

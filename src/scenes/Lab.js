@@ -29,17 +29,19 @@ class Lab extends Phaser.Scene {
         if (!soundEffects["music"]){
            // Create sounds
             soundEffects = {
-            timewarp: this.sound.add("teleportSound", {loop: false, volume: 0.7}),
-            music: this.sound.add("music", {loop: true, volume: 0.5}),
-            jumpSound: this.sound.add("jumpSound", {loop: false, volume: 0.5}),
-            footsteps: this.sound.add("footsteps", {loop: true, volume: 1.0})
+                teleportSound: this.sound.add("teleportSound", {loop: false, volume: 0.7}),
+                music: this.sound.add("music", {loop: true, volume: 0.5}),
+                jumpSound: this.sound.add("jumpSound", {loop: false, volume: 0.5}),
+                footsteps: this.sound.add("footsteps", {loop: true, volume: 1.0})
             }
-
-            console.log(soundEffects)
-            soundEffects["music"].play();
         }
 
-        
+        if (soundEffects["music"].isPlaying){
+            soundEffects["music"].stop();
+        }
+        if (soundEffects["footsteps"].isPlaying){
+            soundEffects["footsteps"].stop();
+        }
         
         this.add.image(0, 0, 'tiles');
        
@@ -137,16 +139,14 @@ class Lab extends Phaser.Scene {
         }
 
         this.enterPortal = () => {
-            let nextLevel = "level" + (progress+1);
-            this.scene.start(nextLevel);
+            //let nextLevel = "level" + (progress+1);
+            soundEffects["footsteps"].stop();
+            soundEffects["teleportSound"].play();
+            this.scene.start("menuScene");
         }
 
         this.portalCollider = this.physics.add.overlap(this.portal, this.player, this.enterPortal);
         
-
-        this.finishLevel = () => {
-            this.scene.start("menuScene");
-        }
 
     }
      

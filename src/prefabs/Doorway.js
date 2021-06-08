@@ -20,7 +20,6 @@ class Doorway extends Phaser.GameObjects.Sprite {
         scene.physics.add.collider(this, scene.player.clone);
 
         this.MOVE_VECTOR_Y = this.height;
-        console.log(this.height);
 
         this.jsonObj = [];
         this.past_pos = this.y;

@@ -18,7 +18,9 @@ class Level2 extends Phaser.Scene {
         this.background.scaleX = 1.1;
         this.background.setDepth(-4);
 
-
+        if (!soundEffects["music"].isPlaying){
+            soundEffects["music"].play();
+        }
         // load the map 
         map = this.make.tilemap({key: 'tilemap2'});
 
@@ -123,7 +125,6 @@ class Level2 extends Phaser.Scene {
         }
         
         this.reachedObjective = () => {
-            console.log("entered");
             winbox.visible = false;
             this.physics.world.removeCollider(this.overlapCollider);
             win = true;
@@ -139,12 +140,9 @@ class Level2 extends Phaser.Scene {
         
         this.overlapCollider = this.physics.add.overlap(winbox, this.player, this.reachedObjective);
 
-        console.log(this.doors);
-
     }
      
     update(time, delta) {
-        //console.log(time);
         this.plates.forEach(plate => {
             plate.update(delta);
         });

@@ -41,6 +41,10 @@ class Level1 extends Phaser.Scene {
             {speaker: 0, time: 2000, text: "Sounds easy enough."}, 
             {speaker: 1, time: 4000, text: "Don’t give up. You know she wouldn’t give up on you."}, 
         ];
+
+        if (!soundEffects["music"].isPlaying){
+            soundEffects["music"].play();
+        }
         
         // Create the Background
         this.background = this.add.tileSprite(game.config.width/2, game.config.height/2, this.textures.get('backdrop').width, this.textures.get('backdrop').height, 'backdrop').setOrigin(0.5, 0.5);
@@ -158,7 +162,6 @@ class Level1 extends Phaser.Scene {
         }
         
         this.reachedObjective = () => {
-            console.log("entered");
             winbox.visible = false;
             this.physics.world.removeCollider(this.overlapCollider);
             win = true;
@@ -180,7 +183,6 @@ class Level1 extends Phaser.Scene {
         this.tutorialTrigger.scaleY = 13;
         this.tutorialTrigger.alpha = 0;
         this.tutorialCollider = this.physics.add.overlap(this.tutorialTrigger, this.player, () => {
-            console.log("tutorial");
             this.player.startTutorial();
             this.physics.world.removeCollider(this.tutorialCollider);
             this.Tutorial();
@@ -319,7 +321,6 @@ class Level1 extends Phaser.Scene {
             this.box.flipX = true;
             // this.bg = this.physics.add.image(this, game.config.width/2, game.config.height/2, 'dialoguebg', 0).setOrigin(0.5, 0.5);
             // this.bg.setDepth(1);
-            console.log(this.bg);
             this.engageDialogue(this.dialogIndex);
         }, null, this);
     }
