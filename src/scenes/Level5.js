@@ -195,7 +195,7 @@ class Level5 extends Phaser.Scene {
         
         this.player.update();
 
-        if(this.player.tutorialActive && keyENTER.isDown && !this.dialogTyping) {
+        if(this.player.tutorialActive && keyENTER.isDown && !this.dialogTyping && this.box) {
             // trigger dialog
             this.engageDialogue(++this.dialogIndex);
         }
@@ -203,7 +203,6 @@ class Level5 extends Phaser.Scene {
     }
 
     engageDialogue(idx){
-        
         let x = 2000;
         let y = 1350;
         this.dialogTyping = true;

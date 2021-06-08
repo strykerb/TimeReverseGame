@@ -119,7 +119,7 @@ class Level2 extends Phaser.Scene {
         
         this.finishLevel = () => {
             progress = 2;
-            this.scene.start("menuScene");
+            this.scene.start("lab");
         }
         
         this.reachedObjective = () => {

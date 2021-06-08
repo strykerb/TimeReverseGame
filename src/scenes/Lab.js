@@ -49,11 +49,12 @@ class Lab extends Phaser.Scene {
         this.particleManager = this.add.particles('particle');
 
         // Instantiate the Player Class  
-        this.player = new Player(this, 150, 150, 'player');
+        this.player = new Player(this, 540, 156, 'player');
         // this.player = new Player(this, 2000, 1200, 'player');
 
         //player.setBounce(0.2); // our player will bounce from items
         this.player.body.setCollideWorldBounds(true); // don't go out of the map
+        this.player.flipX = true;
         	
         // Add collision with the ground
         this.physics.add.collider(groundLayer, this.player);
@@ -91,6 +92,8 @@ class Lab extends Phaser.Scene {
         // Load Sound
         this.teleportSound = this.sound.add("teleportSound", {loop: false, volume: 0.7});
 
+        this.portal = new Portal(this, 280, 90, 'portal', 0).setDepth(-2);
+
         this.scoreConfig = {
             fontFamily: 'cyberfunk',
             fontSize: '30px',
@@ -120,6 +123,13 @@ class Lab extends Phaser.Scene {
             align: 'left', 
             wordWrap: { width: 750, useAdvancedWrap: true }
         }
+
+        this.enterPortal = () => {
+            let nextLevel = "level" + (progress+1);
+            this.scene.start(nextLevel);
+        }
+
+        this.portalCollider = this.physics.add.overlap(this.portal, this.player, this.enterPortal);
         
 
         this.finishLevel = () => {

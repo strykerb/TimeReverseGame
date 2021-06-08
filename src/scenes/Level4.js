@@ -19,7 +19,7 @@ class Level4 extends Phaser.Scene {
         this.background.setDepth(-4);
 
         this.playerSpawnX = 382;
-        this.playerSpawnY = 1406;
+        this.playerSpawnY = 1476;
 
         // load the map 
         map = this.make.tilemap({key: 'tilemap4'});
@@ -50,14 +50,14 @@ class Level4 extends Phaser.Scene {
         // this.player = new Player(this, 2538, 706, 'player');
 
         // Instantiate a doorway
-        this.doors = [new Doorway(this, 1647, 1400, 'door'), new Doorway(this, 1070, 910, 'door')];
+        this.doors = [new Doorway(this, 1647, 1470, 'door'), new Doorway(this, 1070, 980, 'door')];
 
         // Instantiate a Pressure Plate
-        this.plates = [new PressurePlate(this, 1700, 1406, 'button', 0, 0), new PressurePlate(this, 1788, 916, 'button', 0, 1)];
+        this.plates = [new PressurePlate(this, 1700, 1476, 'button', 0, 0), new PressurePlate(this, 1788, 986, 'button', 0, 1)];
 
         this.enemyEmitters = [];
 
-        this.enemies = [new Enemy(this, 1200, 1050, 'robot', 0, 0)];
+        this.enemies = [new Enemy(this, 1200, 1120, 'robot', 0, 0)];
         
         //player.setBounce(0.2); // our player will bounce from items
         this.player.body.setCollideWorldBounds(true); // don't go out of the map
@@ -116,11 +116,11 @@ class Level4 extends Phaser.Scene {
         // this.instructions.setScrollFactor(0, 0);
         // this.instructions.alpha = 0;
 
-        winbox = new Objective(this, 2430, 730, 'wrench');
+        winbox = new Objective(this, 2430, 800, 'wrench');
         
         this.finishLevel = () => {
             progress = 4;
-            this.scene.start("menuScene");
+            this.scene.start("lab");
         }
         
         this.reachedObjective = () => {
