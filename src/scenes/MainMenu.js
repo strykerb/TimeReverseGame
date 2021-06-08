@@ -100,7 +100,7 @@ class MainMenu extends Phaser.Scene {
         this.play.on('pointerover', () => { enterButtonHoverState(this.play); });
         this.play.on('pointerout', () => { enterButtonRestState(this.play); });
         this.play.on('pointerdown', () => { 
-            this.scene.start("lab"); 
+            this.scene.start("introScene"); 
         });
 
         // Add Tutorial Button to the Screen

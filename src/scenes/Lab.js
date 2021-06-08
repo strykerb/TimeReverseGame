@@ -114,7 +114,7 @@ class Lab extends Phaser.Scene {
 
         // Set the default Level
         if (!progress){
-            progress = 4;
+            progress = 0;
         }
 
         // Instructions text
