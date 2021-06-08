@@ -14,7 +14,7 @@ var config = {
     },
     pixelArt: true,
     roundPixels: true,
-    scene: [Credits ,Menu, Lab, Level1, Level2, Level3, Level4, Level5],
+    scene: [MainMenu ,Menu, Lab, Level1, Level2, Level3, Level4, Level5, Credits],
     fps: {
         target: 60,
         forceSetTimeOut: true
