@@ -30,7 +30,6 @@ class MainMenu extends Phaser.Scene {
         this.credits.on('pointerover', () => { enterButtonHoverState(this.credits); });
         this.credits.on('pointerout', () => { enterButtonRestState(this.credits); });
         this.credits.on('pointerdown', () => { 
-            this.UISound.play();
             this.scene.start("creditsScene");
         });
     }
