@@ -25,6 +25,9 @@ class Menu extends Phaser.Scene {
         this.load.atlas('portal', './assets/anims/portalSS.png', './assets/anims/portal.json');
 
         this.load.audio("teleportSound", ["./assets/sounds/timeReverseSound.wav"]);
+        this.load.audio("music", ["./assets/sounds/music.wav"]);
+        this.load.audio("jumpSound", ["./assets/sounds/jumpSound.mp3"]);
+        this.load.audio("footsteps", ["./assets/sounds/footsteps.mp3"]);
 
         // tiles in spritesheet 
         this.load.spritesheet('tiles', './assets/tiles/TilesR.png', {frameWidth: 70, frameHeight: 70});
@@ -69,9 +72,8 @@ class Menu extends Phaser.Scene {
             }
         }
 
-
         if (!progress){
-            progress = 4;
+            progress = 1;
         }
 
         let i;

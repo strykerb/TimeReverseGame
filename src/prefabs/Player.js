@@ -38,6 +38,7 @@ class Player extends Phaser.GameObjects.Sprite {
         // this.timeAnim.alpha = 0;
 
         this.createAnims();
+        this.createSounds();
 
         this.jsonObj = [];
         this.jsonObj.push({"count": 1});
@@ -52,6 +53,7 @@ class Player extends Phaser.GameObjects.Sprite {
         this.collidingPlate = null;
         this.body.setSize(32, 64, 16, 0);
         this.line = new Phaser.Geom.Line(x-16, y+64, x+16, y+64);
+        this.isWalking = false;
 
         this.timeAnim.anims.play('timeAnim');
         this.setupEmitter();
@@ -98,6 +100,7 @@ class Player extends Phaser.GameObjects.Sprite {
         }
 
         if (this.falling){
+            this.isWalking = false;
             if (this.body.onFloor() || this.attatched){
                 this.anims.play("land");
                 this.falling = false;
@@ -112,18 +115,44 @@ class Player extends Phaser.GameObjects.Sprite {
         if (keyLEFT.isDown)
         {
             this.body.setVelocityX(netVelocity - this.MOVE_SPEED); // move left
-            if (!this.falling && !this.jumping){this.anims.play('run', true);} // play walk animation
+            if (!this.falling && !this.jumping){
+                this.anims.play('run', true); // play walk animation
+                if (!this.isWalking){
+                    soundEffects["footsteps"].play();
+                    this.isWalking = true;
+                }
+            } else {
+                if (this.isWalking){
+                    this.footsteps.stop();
+                    this.isWalking = false;
+                }
+            }
             this.flipX= true; // flip the sprite to the left\
             this.landing = false;
         }
         else if (keyRIGHT.isDown)
         {
             this.body.setVelocityX(netVelocity + this.MOVE_SPEED); // move right
-            if (!this.falling && !this.jumping){this.anims.play('run', true);} // play walk animation
+            if (!this.falling && !this.jumping){
+                this.anims.play('run', true); // play walk animation
+                if (!this.isWalking){
+                    soundEffects["footsteps"].play();
+                    this.isWalking = true;
+                }
+            } else {
+                if (this.isWalking){
+                    this.footsteps.stop();
+                    this.isWalking = false;
+                }
+            }
             this.flipX = false; // use the original sprite looking to the right
             this.landing = false;
         } else {
             this.body.setVelocityX(netVelocity);
+            if (this.isWalking){
+                this.footsteps.stop();
+                this.isWalking = false;
+            }
             if (!this.falling && !this.jumping && !this.landing){this.anims.play('idle', true);}
         }  
         if (keyUP.isDown && (this.body.onFloor() || this.attatched))
@@ -220,11 +249,28 @@ class Player extends Phaser.GameObjects.Sprite {
         }
     }
 
+    createSounds(){
+        console.log(this.scene.sound)
+        if (soundEffects.length < 4){
+            soundEffects["jumpSound"] = this.scene.sound.add("jumpSound", {loop: false, volume: 0.5});
+            soundEffects["footsteps"] = this.scene.sound.add("footsteps", {loop: true, volume: 1.0});
+        }
+        if (!this.jumpSound){
+            this.jumpSound = soundEffects["jumpSound"];
+            this.footsteps = soundEffects["footsteps"];
+        }
+        console.log(soundEffects)
+    }
+
     jump(){
         this.anims.play("jump");
+        this.jumpSound.play();
         this.jumping = true;
         this.body.setVelocityY(-this.JUMP_HEIGHT); // jump up
-        // console.log(this.x, this.y);
+        if (this.isWalking){
+            this.footsteps.stop();
+            this.isWalking = false;
+        }
     }
 
     // Appends position and input at the current moment to jsonObj
@@ -257,35 +303,17 @@ class Player extends Phaser.GameObjects.Sprite {
         console.log(this.body.x, (this.body.y+64));
         this.teleporting = true;
         this.timeAnim.alpha = 0;
-
-        this.scene.ellipse = new Phaser.Geom.Ellipse(this.x, this.y+this.height/2, this.width/2, this.height);
-
-        // this.scene.movingEmitter = this.scene.particleManager.createEmitter({
-        //     x: this.x,
-        //     y: this.y+this.height/2,
-        //     moveToX:    {min: this.past_pos["posX"]-this.width/4, max: this.past_pos["posX"]+this.width/4},
-        //     moveToY:    {min: this.past_pos["posY"], max: this.past_pos["posY"]+ this.height},
-        //     speed: 50,
-        //     scale: { start: 0.1, end: 1 },
-        //     alpha: { start: 0.5, end: 1 },
-        //     // higher steps value = more time to go btwn min/max
-        //     lifespan: { min: 2000, max: 7000, steps: 1000 },
-        //     blendMode: 'ADD',
-        //     emitZone: {
-        //         type: 'edge',
-        //         source: this.scene.ellipse
-        //     },
-        // });
         
         //this.setVisible(false);
         this.body.enable = false;
         this.anims.play('timeWarp');
         
-        // Disable Input
-        //this.scene.input.keyboard.enabled = false;
-        
         // Play teleport sound
         this.scene.teleportSound.play();
+        if (this.isWalking){
+            this.footsteps.stop();
+            this.isWalking = false;
+        }
 
         const cam = this.scene.cameras.main;
         cam.pan(this.past_pos["posX"], this.past_pos["posY"], this.TELEPORT_TIME, Phaser.Math.Easing.Cubic.InOut);

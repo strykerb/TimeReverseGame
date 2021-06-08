@@ -25,7 +25,22 @@ class Lab extends Phaser.Scene {
     }
      
     create() {
+        //Load Audio
+        if (!soundEffects["music"]){
+           // Create sounds
+            soundEffects = {
+            timewarp: this.sound.add("teleportSound", {loop: false, volume: 0.7}),
+            music: this.sound.add("music", {loop: true, volume: 0.5}),
+            jumpSound: this.sound.add("jumpSound", {loop: false, volume: 0.5}),
+            footsteps: this.sound.add("footsteps", {loop: true, volume: 1.0})
+            }
 
+            console.log(soundEffects)
+            soundEffects["music"].play();
+        }
+
+        
+        
         this.add.image(0, 0, 'tiles');
        
         // load the map 
@@ -88,9 +103,6 @@ class Lab extends Phaser.Scene {
         //this.coolDownBar = this.makeBar(game.config.width/2 - this.coolDownBarWidth/2, 20, 0x2ecc71);
         // this.setValue(this.coolDownBar, 0);
         //this.coolDownBar.setScrollFactor(0, 0);
-
-        // Load Sound
-        this.teleportSound = this.sound.add("teleportSound", {loop: false, volume: 0.7});
 
         this.portal = new Portal(this, 280, 90, 'portal', 0).setDepth(-2);
 

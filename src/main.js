@@ -14,7 +14,7 @@ var config = {
     },
     pixelArt: true,
     roundPixels: true,
-    scene: [Credits ,Menu, Lab, Level1, Level2, Level3, Level4, Level5],
+    scene: [Menu, Lab, Level1, Level2, Level3, Level4, Level5, Credits],
     fps: {
         target: 60,
         forceSetTimeOut: true
@@ -34,6 +34,7 @@ var winbox;
 var win;
 var labDoor;
 var progress;
+var soundEffects = {};
 
 function loadFont(name, url) {
     var newFont = new FontFace(name, `url(${url})`);
