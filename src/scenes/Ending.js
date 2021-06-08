@@ -1,9 +1,9 @@
 // Protype Scene for testing feasibility of the project
 
-class Intro extends Phaser.Scene {
+class Ending extends Phaser.Scene {
     
     constructor() {
-        super("introScene");
+        super("endingScene");
 
         this.LETTER_TIMER = 10;		// # ms each letter takes to "type" onscreen
         this.NEXT_TEXT = '[ENTER]';	// text to display for next prompt
@@ -18,15 +18,13 @@ class Intro extends Phaser.Scene {
      
     create() {
         this.Dialogue = [
-            {text: "You and your girlfriend are sitting together at the Magnet Rail station."},
-            {text: "You stand up to go to a vending machine, and hear an explosion combined with some strange high frequency sound."},
-            {text: "You run back to where your girlfriend was sitting, but you see nothing but smoke and flames."},
-            {text: "You pick up her broken glasses from the ground."},
-            {text: "5 Years Go By........"},
-            {text: "You still have your girlfriend's broken glasses on your work desk. You haven't repaired them."},
-            {text: "Instead, you've been developing a giant portal. And you've finally finished it."}
+            {text: "As you emerge from the portal, you find yourself back at the Magnet Rail station, just before the incident occurred."},
+            {text: "You watch your past self walk away from your girlfriend, then break into a sprint towards her."},
+            {text: "You see each other, pause, and then embrace."},
+            {text: "You activate your time warp, vanishing the both of you into thin air."},
+            {text: "The time warp causes a near-by generator to explode."},
+            {text: "Your past self runs back to where your girlfriend was, but sees nothing but smoke and flames. They pick up the broken glasses."}
         ];
-        
         
         keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
         
@@ -35,6 +33,14 @@ class Intro extends Phaser.Scene {
         this.dialogueConfig = {
             fontFamily: 'cyberfunk',
             fontSize: '30px',
+            color: '#faf5c8',
+            align: 'left', 
+            wordWrap: { width: 750, useAdvancedWrap: true }
+        }
+
+        this.endConfig = {
+            fontFamily: 'cyberfunk',
+            fontSize: '90px',
             color: '#faf5c8',
             align: 'left', 
             wordWrap: { width: 750, useAdvancedWrap: true }
@@ -64,7 +70,10 @@ class Intro extends Phaser.Scene {
         if (idx >= this.Dialogue.length){
             this.currDialogue.text = "";
             progress = 0;
-            this.scene.start("lab");
+            this.ending = this.add.text(game.config.width/2 , game.config.height/2, "THE END", this.endConfig).setOrigin(0.5, 0.5);
+            this.clock = this.time.delayedCall(3000, () => {
+                this.scene.start("mainMenuScene");
+            }, null, this);
             return;
         }
         

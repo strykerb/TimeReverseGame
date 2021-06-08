@@ -160,7 +160,11 @@ class Lab extends Phaser.Scene {
             //let nextLevel = "level" + (progress+1);
             soundEffects["footsteps"].stop();
             soundEffects["teleportSound"].play();
-            this.scene.start("menuScene");
+            if (progress < 5){
+                this.scene.start("menuScene");
+            } else {
+                this.scene.start("endingScene");
+            }
         }
 
         this.portalCollider = this.physics.add.overlap(this.portal, this.player, this.enterPortal);
