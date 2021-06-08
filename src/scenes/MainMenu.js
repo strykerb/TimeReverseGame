@@ -33,9 +33,16 @@ class MainMenu extends Phaser.Scene {
         this.load.spritesheet('tiles', './assets/tiles/TilesR.png', {frameWidth: 70, frameHeight: 70});
         
         this.load.image('door', './assets/sprites/door.png');
+
+        this.load.image("background", "./assets/sprites/BG.png");
     }
 
     create() {
+
+        this.background = this.add.image(game.config.width/2, game.config.height/2, 'background').setOrigin(0.5, 0.5);
+
+        this.background.scaleX = 0.7;
+        this.background.scaleY = 0.7;
 
         this.creditsConfig = {
             fontFamily: 'Orbitron',
@@ -49,7 +56,7 @@ class MainMenu extends Phaser.Scene {
         }
 
         // Add Play Button to the Screen
-        this.play = this.add.text(game.config.width/3 , 3*game.config.height/4, "PLAY", this.creditsConfig).setOrigin(0.5, 0.5);
+        this.play = this.add.text(game.config.width/3 , 3*game.config.height/4 - 10, "PLAY", this.creditsConfig).setOrigin(0.5, 0.5);
         this.play.setInteractive();
         this.play.on('pointerover', () => { enterButtonHoverState(this.play); });
         this.play.on('pointerout', () => { enterButtonRestState(this.play); });
@@ -68,7 +75,7 @@ class MainMenu extends Phaser.Scene {
         // });
 
         // Add Credits Button to the Screen
-        this.credits = this.add.text((2 * game.config.width)/3 -20, 3*game.config.height/4, "CREDITS", this.creditsConfig).setOrigin(0.5, 0.5);
+        this.credits = this.add.text((2 * game.config.width)/3 -20, 3*game.config.height/4 - 10, "CREDITS", this.creditsConfig).setOrigin(0.5, 0.5);
         this.credits.setInteractive();
         this.credits.on('pointerover', () => { enterButtonHoverState(this.credits); });
         this.credits.on('pointerout', () => { enterButtonRestState(this.credits); });
@@ -77,3 +84,8 @@ class MainMenu extends Phaser.Scene {
         });
     }
 }
+
+
+
+
+
