@@ -4,22 +4,38 @@ class Credits extends Phaser.Scene {
         super("creditsScene");
     }
 
+    preload () {
+        loadFont("Orbitron", "./assets/fonts/Orbitron-Bold.ttf");
+    }
+
     create(){
+
+        this.creditsConfig = {
+            fontFamily: 'Orbitron',
+            fontSize: '56px',
+            color: '#faf5c8',
+            align: 'right',
+            padding: {
+            top: 5,
+            bottom: 5,
+            }
+        }
         
-        this.creditsText = this.add.text(0, 0, 'Credits', 
-        { fontFamily: 'cyberfunk',
-        fontSize: '56px',
-        color: '#faf5c8', });
+        this.creditsText = this.add.text(0, 0, 'Credits', this.creditsConfig);
         this.madeByText = this.add.text(0, 0, 'Created By:', 
-        { fontFamily: 'cyberfunk',
+        { 
+        fontFamily: 'Orbitron',
         fontSize: '56px',
         color: '#faf5c8', });
-        this.zone = this.add.zone(config.width/2, config.height/2, config.width, config.height);
+        
         this.peopleCredits = this.add.text(0, 0, ' \n Programmer, Level Designer and Production Manager By \n Strker Buffington \n\n Artwork By \n Lauren Nakamura \n\n Sound and Tilemap Implementation By \n Rohan Jhangiani \n\n Additional Sound Effects From \n Zapsplat - Alan Mckinney', 
-        { fontFamily: 'cyberfunk',
+        { 
+        fontFamily: 'Orbitron',
         fontSize: '30px',
         color: '#faf5c8', });
         
+        this.zone = this.add.zone(config.width/2, config.height/2, config.width, config.height);
+
         Phaser.Display.Align.In.Center(
         this.creditsText,
         this.zone
